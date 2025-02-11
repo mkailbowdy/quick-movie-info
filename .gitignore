@@ -30,4 +30,3 @@ coverage
 *.tsbuildinfo
 
 /apikeys/*.js
-/apikeys/*.js

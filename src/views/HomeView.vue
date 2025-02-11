@@ -110,8 +110,7 @@ async function fetchMovie() {
     <h3 class="text-red-500">{{ error }}</h3>
   </form>
   <div v-if="loading" class="flex flex-col items-center justify-center h-screen">
-    <div  class="loader">
-  </div>
+    <div class="loader"></div>
   </div>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" v-else>
     <!-- We've used 3xl here, but feel free to try other max-widths based on your needs -->
@@ -156,7 +155,6 @@ async function fetchMovie() {
               {{ result.Ratings[2].Value }}
             </div>
             <div v-else class="text-3xl text-white">-</div>
-
           </div>
         </div>
         <div class="flex items-center gap-4 justify-center pt-2 pb-2">
