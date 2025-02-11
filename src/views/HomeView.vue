@@ -104,9 +104,9 @@ async function fetchMovie() {
 </script>
 
 <template>
-  <form>
+  <form @submit.prevent="fetchMovie">
     <input type="text" class="border border-gray-500" id="query" v-model="query" />
-    <button @click.prevent="fetchMovie">Search</button>
+    <button>Search</button>
     <h3 class="text-red-500">{{ error }}</h3>
   </form>
   <div v-if="loading" class="flex flex-col items-center justify-center h-screen">
