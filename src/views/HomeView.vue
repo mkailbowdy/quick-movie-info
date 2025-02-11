@@ -76,7 +76,7 @@ function worthIt() {
   }
 }
 
-async function fetchMovie (){
+const fetchMovie = () => {
   if (result.value) {
     result.value = null
     youtubeID.value = ''
