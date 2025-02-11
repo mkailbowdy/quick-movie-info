@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #000;
+  color: #fff;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+input {
+  background-color: black;
+}
