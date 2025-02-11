@@ -30,19 +30,22 @@ interface Movie {
   Response: string
 }
 
+const baseUrlKinocheck = 'https://api.kinocheck.com/trailers?language=en&imdb_id='
+const baseUrlOmdb = 'https://www.omdbapi.com/?' + omdb
+const paramOmdbMovieTitle = '&t='
+const paramOmdbPlot = '&plot=full'
+const paramOmdbType = '&type=movie'
+const youtubeEmbedLink = 'https://www.youtube.com/embed/'
+
 const error = ref(null)
 const result = ref<Movie | null>(null)
-const paramMovieTitle = '&t='
-const paramType = '&type=movie'
-const paramPlot = '&plot=full'
-const baseUrl = 'http://www.omdbapi.com/?' + omdb
-const baseUrlTrailer = 'https://api.kinocheck.com/trailers?language=en&imdb_id='
-const searchMovieDirectly = ref('')
+const query = ref('')
+const watchIt = ref(0)
 const youtubeID = ref('')
-const youtubeLink = 'https://www.youtube.com/embed/'
 
 const fetchTrailer = () => {
-  fetch(baseUrlTrailer + result.value?.imdbID)
+  const promise = fetch(baseUrlKinocheck + result.value?.imdbID)
+  promise
     .then((response) => {
       if (!response.ok) {
         throw new Error()
@@ -53,7 +56,7 @@ const fetchTrailer = () => {
       if (data.message) {
         throw new Error(data.message)
       }
-      youtubeID.value = youtubeLink + data[0].youtube_video_id
+      youtubeID.value = youtubeEmbedLink + data[0].youtube_video_id
     })
     .catch((e) => {
       console.log(e.message)
@@ -61,23 +64,28 @@ const fetchTrailer = () => {
 }
 
 function worthIt() {
-  const imdb = (parseFloat(result.value.imdbRating) / 10) * 100
-  const rottenTomatoes = parseInt(result.value.Ratings[1].Value)
-  const metacritic = parseFloat(
-    result.value.Ratings[2].Value.slice(0, result.value.Ratings[2].Value.indexOf('/' + 1)),
-  )
-  watchIt.value = Math.floor((imdb + rottenTomatoes + metacritic) / 3)
+  if (result.value) {
+    const imdb = (parseFloat(result.value.imdbRating) / 10) * 100
+    const rottenTomatoes = parseInt(result.value.Ratings[1].Value)
+    const metacritic = parseFloat(
+      result.value.Ratings[2].Value.slice(0, result.value.Ratings[2].Value.indexOf('/' + 1)),
+    )
+    watchIt.value = Math.floor((imdb + rottenTomatoes + metacritic) / 3)
+  } else {
+    throw new Error()
+  }
 }
-const searchDirectly = () => {
+
+async function fetchMovie (){
   if (result.value) {
     result.value = null
     youtubeID.value = ''
     error.value = null
   }
-  const promiseSearch = fetch(
-    baseUrl + paramType + paramPlot + paramMovieTitle + searchMovieDirectly.value,
+  const promise = fetch(
+    baseUrlOmdb + paramOmdbType + paramOmdbPlot + paramOmdbMovieTitle + query.value,
   )
-  promiseSearch
+  promise
     .then((response) => {
       if (!response.ok) {
         throw new Error()
@@ -96,18 +104,12 @@ const searchDirectly = () => {
       error.value = e.message
     })
 }
-const watchIt = ref(0)
 </script>
 
 <template>
   <form>
-    <input
-      type="text"
-      class="border border-gray-500"
-      id="searchMovieDirectly"
-      v-model="searchMovieDirectly"
-    />
-    <button @click.prevent="searchDirectly">Search</button>
+    <input type="text" class="border border-gray-500" id="query" v-model="query" />
+    <button @click.prevent="fetchMovie">Search</button>
     <h3 class="text-red-500">{{ error }}</h3>
   </form>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -155,7 +157,7 @@ const watchIt = ref(0)
         </div>
         <div class="flex items-center gap-4 justify-center">
           <h2 class="text-2xl text-yellow-500 font-bold">Overall Score</h2>
-          <h3 class="text-5xl border border-4 border-yellow-500 rounded-full p-2">{{ watchIt }}</h3>
+          <h3 class="text-5xl border-4 border-yellow-500 rounded-full p-2">{{ watchIt }}</h3>
         </div>
         <div class="flex gap-4">
           <img v-if="youtubeID" :src="result.Poster" alt="movie poster" class="h-64" />
