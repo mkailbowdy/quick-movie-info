@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { omdb } from '../../apikeys/apikeys.js'
+// import { omdb } from '../../apikeys/apikeys.js'
 import { ref } from 'vue'
 
 interface Movie {
@@ -31,7 +31,7 @@ interface Movie {
 }
 
 const baseUrlKinocheck = 'https://api.kinocheck.com/trailers?language=en&imdb_id='
-const baseUrlOmdb = 'https://www.omdbapi.com/?' + omdb
+const baseUrlOmdb = `https://www.omdbapi.com/?apikey=${import.meta.env.VITE_OMDB_API_KEY}`
 const paramOmdbMovieTitle = '&t='
 const paramOmdbPlot = '&plot=full'
 const paramOmdbType = '&type=movie'
