@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// import { omdb } from '../../apikeys/apikeys.js'
 import { ref } from 'vue'
 
 interface Movie {
@@ -43,7 +42,13 @@ const query = ref('')
 const watchIt = ref(0)
 const youtubeID = ref('')
 const loading = ref(false)
-
+function dismissKeyboard() {
+  // Dismiss keyboard by blurring the active element
+  const activeElement = document.activeElement as HTMLElement
+  if (activeElement) {
+    activeElement.blur()
+  }
+}
 function worthIt() {
   if (result.value) {
     const imdb = (parseFloat(result.value.imdbRating) / 10) * 100
@@ -73,6 +78,7 @@ async function fetchTrailer() {
 }
 
 async function fetchMovie() {
+  dismissKeyboard()
   if (result.value) {
     result.value = null
     youtubeID.value = ''
