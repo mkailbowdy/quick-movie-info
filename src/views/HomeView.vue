@@ -42,23 +42,7 @@ const result = ref<Movie | null>(null)
 const query = ref('')
 const watchIt = ref(0)
 const youtubeID = ref('')
-
-async function fetchTrailer() {
-  if (result.value) {
-    try {
-      const response = await fetch(baseUrlKinocheck + result.value.imdbID)
-      const data = await response.json()
-      if (data.message) {
-        throw new Error(data.message)
-      }
-      youtubeID.value = youtubeEmbedLink + data[0].youtube_video_id
-    } catch (e) {
-      console.error(e)
-    }
-  } else{
-    throw new Error('There is no movie trailer')
-  }
-}
+const loading = ref(false)
 
 function worthIt() {
   if (result.value) {
@@ -73,6 +57,21 @@ function worthIt() {
   }
 }
 
+async function fetchTrailer() {
+  if (result.value) {
+    try {
+      const response = await fetch(baseUrlKinocheck + result.value.imdbID)
+      const data = await response.json()
+      if (data.message) {
+        throw new Error(data.message)
+      }
+      youtubeID.value = youtubeEmbedLink + data[0].youtube_video_id
+    } catch (e) {
+      console.error(e)
+    }
+  }
+}
+
 async function fetchMovie() {
   if (result.value) {
     result.value = null
@@ -81,15 +80,23 @@ async function fetchMovie() {
   }
 
   try {
+    loading.value = true
     const response = await fetch(
       baseUrlOmdb + paramOmdbType + paramOmdbPlot + paramOmdbMovieTitle + query.value,
     )
     if (!response.ok) {
       throw new Error()
     }
-    result.value = await response.json()
+    const data = await response.json()
+    if (data.Error) {
+      loading.value = false
+      error.value = data.Error
+      throw new Error(data.Error)
+    }
+    result.value = data
+    loading.value = false
     worthIt()
-    fetchTrailer()
+    await fetchTrailer()
   } catch (e) {
     console.error(e)
   }
@@ -102,7 +109,11 @@ async function fetchMovie() {
     <button @click.prevent="fetchMovie">Search</button>
     <h3 class="text-red-500">{{ error }}</h3>
   </form>
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div v-if="loading" class="flex flex-col items-center justify-center h-screen">
+    <div  class="loader">
+  </div>
+  </div>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" v-else>
     <!-- We've used 3xl here, but feel free to try other max-widths based on your needs -->
     <div class="mx-auto max-w-3xl">
       <div class="flex flex-col pt-16 pb-16 gap-4" v-if="result">
@@ -137,12 +148,15 @@ async function fetchMovie() {
             <div class="text-3xl text-white" v-if="result.Ratings[1]">
               {{ result.Ratings[1].Value }}
             </div>
+            <div v-else class="text-3xl text-white">-</div>
           </div>
           <div class="text-md text-yellow-500">
             Metacritic
             <div class="text-3xl text-white" v-if="result.Ratings[2]">
               {{ result.Ratings[2].Value }}
             </div>
+            <div v-else class="text-3xl text-white">-</div>
+
           </div>
         </div>
         <div class="flex items-center gap-4 justify-center pt-2 pb-2">
@@ -161,7 +175,6 @@ async function fetchMovie() {
             <div>Cast: {{ result.Actors }}</div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
