@@ -43,24 +43,21 @@ const query = ref('')
 const watchIt = ref(0)
 const youtubeID = ref('')
 
-const fetchTrailer = () => {
-  const promise = fetch(baseUrlKinocheck + result.value?.imdbID)
-  promise
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error()
-      }
-      return response.json()
-    })
-    .then((data) => {
+async function fetchTrailer() {
+  if (result.value) {
+    try {
+      const response = await fetch(baseUrlKinocheck + result.value.imdbID)
+      const data = await response.json()
       if (data.message) {
         throw new Error(data.message)
       }
       youtubeID.value = youtubeEmbedLink + data[0].youtube_video_id
-    })
-    .catch((e) => {
-      console.log(e.message)
-    })
+    } catch (e) {
+      console.error(e)
+    }
+  } else{
+    throw new Error('There is no movie trailer')
+  }
 }
 
 function worthIt() {
@@ -76,33 +73,26 @@ function worthIt() {
   }
 }
 
-const fetchMovie = () => {
+async function fetchMovie() {
   if (result.value) {
     result.value = null
     youtubeID.value = ''
     error.value = null
   }
-  const promise = fetch(
-    baseUrlOmdb + paramOmdbType + paramOmdbPlot + paramOmdbMovieTitle + query.value,
-  )
-  promise
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error()
-      }
-      return response.json()
-    })
-    .then((data) => {
-      if (data.Error) {
-        throw new Error(data.Error)
-      }
-      result.value = data
-      worthIt()
-      fetchTrailer()
-    })
-    .catch((e) => {
-      error.value = e.message
-    })
+
+  try {
+    const response = await fetch(
+      baseUrlOmdb + paramOmdbType + paramOmdbPlot + paramOmdbMovieTitle + query.value,
+    )
+    if (!response.ok) {
+      throw new Error()
+    }
+    result.value = await response.json()
+    worthIt()
+    fetchTrailer()
+  } catch (e) {
+    console.error(e)
+  }
 }
 </script>
 
@@ -155,10 +145,12 @@ const fetchMovie = () => {
             </div>
           </div>
         </div>
-        <div class="flex items-center gap-4 justify-center">
+        <div class="flex items-center gap-4 justify-center pt-2 pb-2">
           <h2 class="text-2xl text-yellow-500 font-bold">Overall Score</h2>
           <h3 class="text-5xl border-4 border-yellow-500 rounded-full p-2">{{ watchIt }}</h3>
         </div>
+        <h3 class="text-2xl">Plot Summary</h3>
+        <div>{{ result.Plot }}</div>
         <div class="flex gap-4">
           <img v-if="youtubeID" :src="result.Poster" alt="movie poster" class="h-64" />
           <div class="flex flex-col">
@@ -169,8 +161,7 @@ const fetchMovie = () => {
             <div>Cast: {{ result.Actors }}</div>
           </div>
         </div>
-        <h3 class="text-2xl">Plot Summary</h3>
-        <div>{{ result.Plot }}</div>
+
       </div>
     </div>
   </div>
