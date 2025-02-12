@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import type { Movie } from '../types/Movie.ts'
 import { dismissKeyboard } from '../helpers/dismissKeyboard.ts'
+import ButtonComponent from '@/components/ButtonComponent.vue'
 
 const baseUrlKinocheck = 'https://api.kinocheck.com/trailers?language=en&imdb_id='
 const baseUrlOmdb = `https://www.omdbapi.com/?apikey=${import.meta.env.VITE_OMDB_API_KEY}`
@@ -78,18 +79,33 @@ async function fetchMovie() {
 </script>
 
 <template>
-  <form @submit.prevent="fetchMovie">
-    <input type="text" class="border border-gray-500" id="query" v-model="query" />
-    <button>Search</button>
-    <h3 class="text-red-500">{{ error }}</h3>
-  </form>
+  <div class="flex flex-col p-4 bg-red-950 items-center">
+    <form @submit.prevent="fetchMovie">
+      <div class="flex flex-col gap-2">
+        <label for="query" class="block text-lg font-medium text-center">Enter a movie title</label>
+        <input
+          v-model="query"
+          type="text"
+          name="query"
+          id="query"
+          class="block w-full rounded-full bg-white px-4 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+          placeholder="e.g. The Lion King"
+        />
+        <div class="self-center pt-4">
+          <ButtonComponent size="medium" class="bg-amber-500">Search</ButtonComponent>
+        </div>
+        <h3 class="text-red-500">{{ error }}</h3>
+      </div>
+    </form>
+  </div>
+
   <div v-if="loading" class="flex flex-col items-center justify-center h-screen">
     <div class="loader"></div>
   </div>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" v-else>
     <!-- We've used 3xl here, but feel free to try other max-widths based on your needs -->
     <div class="mx-auto max-w-3xl">
-      <div class="flex flex-col pt-16 pb-16 gap-4" v-if="result">
+      <div class="flex flex-col p-2 pt-8 gap-4" v-if="result">
         <div class="text-4xl">{{ result.Title }}</div>
         <div class="text-gray-500 text-md flex justify-between">
           <span>{{ result.Rated }}・{{ result.Runtime }}・{{ result.Year }}</span>
@@ -110,20 +126,20 @@ async function fetchMovie() {
           <img :src="result.Poster" alt="movie poster" />
         </div>
         <div class="flex flex-row justify-between">
-          <div class="text-md text-yellow-500">
+          <div class="text-md text-amber-500">
             IMDB
             <div class="text-3xl text-white" v-if="result.Ratings[0]">
               {{ result.Ratings[0].Value }}
             </div>
           </div>
-          <div class="text-md text-yellow-500">
+          <div class="text-md text-amber-500">
             Rotten Tomatoes
             <div class="text-3xl text-white" v-if="result.Ratings[1]">
               {{ result.Ratings[1].Value }}
             </div>
             <div v-else class="text-3xl text-white">-</div>
           </div>
-          <div class="text-md text-yellow-500">
+          <div class="text-md text-amber-500">
             Metacritic
             <div class="text-3xl text-white" v-if="result.Ratings[2]">
               {{ result.Ratings[2].Value }}
@@ -132,8 +148,8 @@ async function fetchMovie() {
           </div>
         </div>
         <div class="flex items-center gap-4 justify-center pt-2 pb-2">
-          <h2 class="text-2xl text-yellow-500 font-bold">Overall Score</h2>
-          <h3 class="text-5xl border-4 border-yellow-500 rounded-full p-2">{{ watchIt }}</h3>
+          <h2 class="text-2xl text-amber-500 font-bold">Overall Score</h2>
+          <h3 class="text-5xl border-4 border-amber-500 rounded-full p-2">{{ watchIt }}</h3>
         </div>
         <h3 class="text-2xl">Plot Summary</h3>
         <div>{{ result.Plot }}</div>
