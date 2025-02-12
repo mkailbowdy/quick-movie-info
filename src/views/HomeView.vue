@@ -19,16 +19,26 @@ const youtubeID = ref('')
 const loading = ref(false)
 
 function overallScore() {
-  if (result.value) {
+  if (result.value?.Ratings.length === 3) {
     const imdb = (parseFloat(result.value.imdbRating) / 10) * 100
     const rottenTomatoes = parseInt(result.value.Ratings[1].Value)
     const metacritic = parseFloat(
       result.value.Ratings[2].Value.slice(0, result.value.Ratings[2].Value.indexOf('/' + 1)),
     )
-    watchIt.value = Math.floor((imdb + rottenTomatoes + metacritic) / 3)
-  } else {
-    throw new Error()
+    return watchIt.value = Math.floor((imdb + rottenTomatoes + metacritic) / 3)
   }
+
+  if (result.value?.Ratings.length === 2) {
+    const imdb = (parseFloat(result.value.imdbRating) / 10) * 100
+    const rottenTomatoes = parseInt(result.value.Ratings[1].Value)
+    return watchIt.value = Math.floor((imdb + rottenTomatoes) / 2)
+  }
+
+  if (result.value?.Ratings.length === 1) {
+    return watchIt.value = (parseFloat(result.value.imdbRating) / 10) * 100
+  }
+
+  throw new Error()
 }
 
 async function fetchTrailer() {
@@ -69,6 +79,7 @@ async function fetchMovie() {
       throw new Error(data.Error)
     }
     result.value = data
+    console.log(result.value)
     loading.value = false
     overallScore()
     await fetchTrailer()
