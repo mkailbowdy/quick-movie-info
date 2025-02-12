@@ -1,33 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-
-interface Movie {
-  Title: string
-  Year: string
-  Rated: string
-  Released: string
-  Runtime: string
-  Genre: string
-  Director: string
-  Writer: string
-  Actors: string
-  Plot: string
-  Language: string
-  Country: string
-  Awards: string
-  Poster: string
-  Ratings: { Source: string; Value: string }[]
-  Metascore: string
-  imdbRating: string
-  imdbVotes: string
-  imdbID: string
-  Type: string
-  DVD: string
-  BoxOffice: string
-  Production: string
-  Website: string
-  Response: string
-}
+import type { Movie } from '../types/Movie.ts'
+import { dismissKeyboard } from '../helpers/dismissKeyboard.ts'
 
 const baseUrlKinocheck = 'https://api.kinocheck.com/trailers?language=en&imdb_id='
 const baseUrlOmdb = `https://www.omdbapi.com/?apikey=${import.meta.env.VITE_OMDB_API_KEY}`
@@ -42,14 +16,8 @@ const query = ref('')
 const watchIt = ref(0)
 const youtubeID = ref('')
 const loading = ref(false)
-function dismissKeyboard() {
-  // Dismiss keyboard by blurring the active element
-  const activeElement = document.activeElement as HTMLElement
-  if (activeElement) {
-    activeElement.blur()
-  }
-}
-function worthIt() {
+
+function overallScore() {
   if (result.value) {
     const imdb = (parseFloat(result.value.imdbRating) / 10) * 100
     const rottenTomatoes = parseInt(result.value.Ratings[1].Value)
@@ -101,7 +69,7 @@ async function fetchMovie() {
     }
     result.value = data
     loading.value = false
-    worthIt()
+    overallScore()
     await fetchTrailer()
   } catch (e) {
     console.error(e)
