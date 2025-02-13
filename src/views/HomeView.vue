@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import type { Movie } from '../types/Movie.ts'
 import { dismissKeyboard } from '../helpers/dismissKeyboard.ts'
-import ButtonComponent from '@/components/ButtonComponent.vue'
+import { debounce } from 'lodash'
 
 const baseUrlKinocheck = 'https://api.kinocheck.com/trailers?language=en&imdb_id='
 const baseUrlOmdb = `https://www.omdbapi.com/?apikey=${import.meta.env.VITE_OMDB_API_KEY}`
@@ -36,7 +36,7 @@ function overallScore() {
   }
 
   if (result.value?.Ratings.length === 1) {
-    return (watchIt.value = (parseFloat(result.value.imdbRating) / 10) * 100)
+    return (watchIt.value = Math.floor((parseFloat(result.value.imdbRating) / 10) * 100))
   }
 
   throw new Error()
@@ -91,17 +91,19 @@ async function fetchMovie(imdbID: string) {
   }
 }
 
-const results = ref<Movie[] | null>([])
+const results = ref<Movie[] | null>(null)
+
 async function searchAll(){
-  console.log(query.value)
   const response = await fetch(baseUrlOmdb + paramOmdbType + paramOmdbSearchAll + query.value)
   if (!response.ok) {
     throw new Error()
   }
-  // console.log(data)
   const data = await response.json()
+  console.log(data)
   results.value = data.Search
 }
+
+const deboucedSearch = debounce(searchAll, 300)
 </script>
 
 <template>
@@ -118,7 +120,7 @@ async function searchAll(){
           id="query"
           class="block w-full rounded-full bg-white px-4 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
           placeholder="e.g. The Lion King"
-          @keyup="searchAll"
+          @keyup="deboucedSearch"
         />
 <!--        <div class="self-center">-->
 <!--          <ButtonComponent size="medium" class="bg-amber-500">Search</ButtonComponent>-->
