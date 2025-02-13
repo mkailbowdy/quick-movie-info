@@ -7,6 +7,7 @@ import ButtonComponent from '@/components/ButtonComponent.vue'
 const baseUrlKinocheck = 'https://api.kinocheck.com/trailers?language=en&imdb_id='
 const baseUrlOmdb = `https://www.omdbapi.com/?apikey=${import.meta.env.VITE_OMDB_API_KEY}`
 const paramOmdbMovieTitle = '&t='
+const paramOmdbSearchAll = '&s='
 const paramOmdbPlot = '&plot=full'
 const paramOmdbType = '&type=movie'
 const youtubeEmbedLink = 'https://www.youtube.com/embed/'
@@ -56,6 +57,9 @@ async function fetchTrailer() {
   }
 }
 
+
+
+const choice = ref("")
 async function fetchMovie() {
   dismissKeyboard()
   if (result.value) {
@@ -87,6 +91,18 @@ async function fetchMovie() {
     console.error(e)
   }
 }
+
+const results = ref<Movie[] | null>([])
+async function searchAll(){
+  console.log(query.value)
+  const response = await fetch(baseUrlOmdb + paramOmdbType + paramOmdbSearchAll + query.value)
+  if (!response.ok) {
+    throw new Error()
+  }
+  // console.log(data)
+  const data = await response.json()
+  results.value = data.Search
+}
 </script>
 
 <template>
@@ -103,6 +119,7 @@ async function fetchMovie() {
           id="query"
           class="block w-full rounded-full bg-white px-4 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
           placeholder="e.g. The Lion King"
+          @keyup="searchAll"
         />
         <div class="self-center">
           <ButtonComponent size="medium" class="bg-amber-500">Search</ButtonComponent>
@@ -198,6 +215,18 @@ async function fetchMovie() {
       </div>
     </div>
   </div>
+
+
+  <div v-if="results" class="flex gap-4 overflow-x-scroll text-white">
+    <div v-for="result in results" >
+      <div class="w-64" @click="fetchMovie">
+        <div>{{result.Title}}</div>
+        <img :src="result.Poster" alt="movie poster">
+      </div>
+    </div>
+  </div>
+
+
 </template>
 
 <style scoped>
