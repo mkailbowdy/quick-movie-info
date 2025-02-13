@@ -65,6 +65,7 @@ async function fetchMovie(imdbID: string) {
     result.value = null
     youtubeID.value = ''
     error.value = null
+    results.value = null
   }
 
   try {
@@ -100,7 +101,7 @@ async function searchAll(){
   }
   const data = await response.json()
   console.log(data)
-  results.value = data.Search
+  results.value = data.Search.filter((item: Movie) => item.Poster !== "N/A" )
 }
 
 const deboucedSearch = debounce(searchAll, 300)
