@@ -159,7 +159,7 @@ const debouncedSearch = debounce(searchAll, 300)
     </form>
   </div>
 
-  <div v-if="loading" class="loader absolute top-2 left-2"></div>
+  <div v-if="loading" class="loader absolute top-8 left-4"></div>
 
   <Transition>
     <div v-if="results" class="flex gap-8 overflow-x-scroll text-white search">
