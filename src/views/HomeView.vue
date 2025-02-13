@@ -117,10 +117,12 @@ async function fetchMovie() {
     <!-- We've used 3xl here, but feel free to try other max-widths based on your needs -->
     <div class="mx-auto max-w-3xl">
       <div class="flex flex-col p-2 pt-8 gap-4" v-if="result">
-        <div class="text-4xl">{{ result.Title }}</div>
-        <div class="text-gray-500 text-md flex justify-between">
-          <span>{{ result.Rated }}・{{ result.Runtime }}・{{ result.Year }}</span>
-          <span>{{ result.Genre }}</span>
+        <div>
+          <div class="text-4xl">{{ result.Title }}</div>
+          <div class="text-gray-500 text-sm flex justify-between">
+            <span>{{ result.Rated }}・{{ result.Runtime }}・{{ result.Year }}</span>
+            <span>{{ result.Genre }}</span>
+          </div>
         </div>
         <iframe
           v-if="youtubeID"
@@ -136,23 +138,23 @@ async function fetchMovie() {
         <div v-else class="flex justify-center">
           <img :src="result.Poster" alt="movie poster" />
         </div>
-        <div class="flex flex-row justify-between">
-          <div class="text-md text-amber-500">
+        <div class="flex justify-between">
+          <div class="text-md text-amber-500 text-center">
             IMDB
-            <div class="text-3xl text-white" v-if="result.Ratings[0]">
+            <div class="text-xl text-white" v-if="result.Ratings[0]">
               {{ result.Ratings[0].Value }}
             </div>
           </div>
-          <div class="text-md text-amber-500">
+          <div class="text-md text-amber-500 text-center">
             Rotten Tomatoes
-            <div class="text-3xl text-white" v-if="result.Ratings[1]">
+            <div class="text-xl text-white" v-if="result.Ratings[1]">
               {{ result.Ratings[1].Value }}
             </div>
-            <div v-else class="text-3xl text-white">-</div>
+            <div v-else class="text-xl text-white">-</div>
           </div>
-          <div class="text-md text-amber-500">
+          <div class="text-md text-amber-500 text-center">
             Metacritic
-            <div class="text-3xl text-white" v-if="result.Ratings[2]">
+            <div class="text-xl text-white" v-if="result.Ratings[2]">
               {{ result.Ratings[2].Value }}
             </div>
             <div v-else class="text-3xl text-white">-</div>
