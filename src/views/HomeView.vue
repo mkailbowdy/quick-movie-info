@@ -59,11 +59,9 @@ async function fetchTrailer() {
 
 async function fetchMovie(imdbID: string) {
   dismissKeyboard()
-  if (result.value) {
-    result.value = null
-    youtubeID.value = ''
-    error.value = null
-  }
+  result.value = null
+  youtubeID.value = ''
+  error.value = null
 
   try {
     loading.value = true
@@ -94,7 +92,9 @@ const results = ref<Movie[] | null>(null)
 
 async function searchAll() {
   loading.value = true
-  try{
+  results.value = null
+  result.value = null
+  try {
     const response = await fetch(baseUrlOmdb + paramOmdbType + paramOmdbSearchAll + query.value)
     if (!response.ok) {
       throw new Error()
@@ -102,18 +102,18 @@ async function searchAll() {
     const data = await response.json()
     console.log(data)
     results.value = data.Search.filter((item: Movie) => item.Poster !== 'N/A')
-  } catch(e) {
+  } catch (e) {
     console.error(e)
   } finally {
     loading.value = false
   }
-
 }
 
 const deboucedSearch = debounce(searchAll, 300)
 </script>
 
 <template>
+
   <div class="flex flex-col bg-gray-800 items-center mb-4">
     <form @submit.prevent="dismissKeyboard">
       <div class="flex flex-col gap-2 py-3">
@@ -129,121 +129,139 @@ const deboucedSearch = debounce(searchAll, 300)
           placeholder="e.g. The Lion King"
           @keyup="deboucedSearch"
         />
-        <!--        <div class="self-center">-->
-        <!--          <ButtonComponent size="medium" class="bg-amber-500">Search</ButtonComponent>-->
-        <!--        </div>-->
         <h3 class="text-red-500">{{ error }}</h3>
       </div>
     </form>
   </div>
-  <div v-if="results" class="flex gap-8 overflow-x-scroll text-white search">
-    <div v-for="result in results">
-      <div class="w-48 cursor-pointer" @click="fetchMovie(result.imdbID)">
-        <div>{{ result.Title }}</div>
-        <img :src="result.Poster" alt="movie poster" />
+
+  <div v-if="loading" class="loader absolute bottom-0"></div>
+
+  <Transition>
+    <div v-if="results" class="flex gap-8 overflow-x-scroll text-white search">
+      <div v-for="result in results" :key="result.Title">
+        <div class="w-48 cursor-pointer" @click="fetchMovie(result.imdbID)">
+          <div>{{ result.Title }}</div>
+          <img :src="result.Poster" alt="movie poster" />
+        </div>
       </div>
     </div>
-  </div>
-  <div v-if="loading" class="flex justify-center pt-8">
-    <div class="loader"></div>
-  </div>
-  <div class="mx-auto max-w-7xl px-4 pt-4 pb-4 sm:px-6 lg:px-8" v-else>
+  </Transition>
+
+  <div class="mx-auto max-w-7xl px-4 pt-4 pb-4 sm:px-6 lg:px-8">
     <!-- We've used 3xl here, but feel free to try other max-widths based on your needs -->
     <div class="mx-auto max-w-3xl">
-      <div class="flex flex-col gap-1" v-if="result">
-        <div class="text-4xl">{{ result.Title }}</div>
-        <div class="text-gray-500 text-sm flex justify-between">
-          <span>{{ result.Rated }}・{{ result.Runtime }}・{{ result.Year }}</span>
-          <span>{{ result.Genre }}</span>
-        </div>
-        <div class="pt-4">
-          <iframe
-            v-if="youtubeID"
-            class="w-full"
-            height="315"
-            :src="youtubeID"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen
-          ></iframe>
-          <div v-else class="flex justify-center">
-            <img :src="result.Poster" alt="movie poster" />
+
+
+      <Transition name="slide">
+        <div class="flex flex-col gap-1" v-if="result">
+          <div class="text-4xl">{{ result.Title }}</div>
+          <div class="text-gray-500 text-sm flex justify-between">
+            <span>{{ result.Rated }}・{{ result.Runtime }}・{{ result.Year }}</span>
+            <span>{{ result.Genre }}</span>
           </div>
-        </div>
-        <div class="flex justify-between">
-          <div class="text-md text-amber-500 text-center">
-            IMDB
-            <div class="text-xl text-white" v-if="result.Ratings[0]">
-              {{ result.Ratings[0].Value }}
+          <div class="pt-4">
+            <iframe
+              v-if="youtubeID"
+              class="w-full"
+              height="315"
+              :src="youtubeID"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+            <div v-else class="flex justify-center">
+              <img :src="result.Poster" alt="movie poster" />
             </div>
           </div>
-          <div class="text-md text-amber-500 text-center">
-            Rotten Tomatoes
-            <div class="text-xl text-white" v-if="result.Ratings[1]">
-              {{ result.Ratings[1].Value }}
+          <div class="flex justify-between">
+            <div class="text-md text-amber-500 text-center">
+              IMDB
+              <div class="text-xl text-white" v-if="result.Ratings[0]">
+                {{ result.Ratings[0].Value }}
+              </div>
             </div>
-            <div v-else class="text-xl text-white">-</div>
-          </div>
-          <div class="text-md text-amber-500 text-center">
-            Metacritic
-            <div class="text-xl text-white" v-if="result.Ratings[2]">
-              {{ result.Ratings[2].Value }}
+            <div class="text-md text-amber-500 text-center">
+              Rotten Tomatoes
+              <div class="text-xl text-white" v-if="result.Ratings[1]">
+                {{ result.Ratings[1].Value }}
+              </div>
+              <div v-else class="text-xl text-white">-</div>
             </div>
-            <div v-else class="text-3xl text-white">-</div>
-          </div>
-        </div>
-        <div class="flex items-center gap-4 justify-center pt-2 pb-2">
-          <h2 class="text-2xl text-amber-500 font-bold">Overall Score</h2>
-          <h3 class="text-5xl border-4 border-amber-500 rounded-full p-2">{{ watchIt }}</h3>
-        </div>
-        <div class="pb-4 flex flex-col gap-2">
-          <h3 class="text-3xl">Plot Summary</h3>
-          <p class="text-md tracking-wide leading-loose">{{ result.Plot }}</p>
-        </div>
-        <div class="text-lg flex flex-col bg-gray-800 p-4 rounded justify-center gap-2">
-          <img v-if="youtubeID" :src="result.Poster" alt="movie poster" />
-          <div class="divide-y divide-gray-600 leading-relaxed flex flex-col gap-1">
-            <div>
-              <div class="text-amber-500 font-semibold">Director</div>
-              {{ result.Director }}
-            </div>
-            <div>
-              <div class="text-amber-500 font-semibold">Writer</div>
-              {{ result.Writer }}
-            </div>
-            <div>
-              <div class="text-amber-500 font-semibold">Box Office</div>
-              {{ result.BoxOffice }}
-            </div>
-            <div>
-              <div class="text-amber-500 font-semibold">Awards</div>
-              {{ result.Awards }}
-            </div>
-            <div>
-              <div class="text-amber-500 font-semibold">Cast</div>
-              {{ result.Actors }}
+            <div class="text-md text-amber-500 text-center">
+              Metacritic
+              <div class="text-xl text-white" v-if="result.Ratings[2]">
+                {{ result.Ratings[2].Value }}
+              </div>
+              <div v-else class="text-3xl text-white">-</div>
             </div>
           </div>
+          <div class="flex items-center gap-4 justify-center pt-2 pb-2">
+            <h2 class="text-2xl text-amber-500 font-bold">Overall Score</h2>
+            <h3 class="text-5xl border-4 border-amber-500 rounded-full p-2">{{ watchIt }}</h3>
+          </div>
+          <div class="pb-4 flex flex-col gap-2">
+            <h3 class="text-3xl">Plot Summary</h3>
+            <p class="text-md tracking-wide leading-loose">{{ result.Plot }}</p>
+          </div>
+          <div class="text-lg flex flex-col bg-gray-800 p-4 rounded justify-center gap-2">
+            <img v-if="youtubeID" :src="result.Poster" alt="movie poster" />
+            <div class="divide-y divide-gray-600 leading-relaxed flex flex-col gap-1">
+              <div>
+                <div class="text-amber-500 font-semibold">Director</div>
+                {{ result.Director }}
+              </div>
+              <div>
+                <div class="text-amber-500 font-semibold">Writer</div>
+                {{ result.Writer }}
+              </div>
+              <div>
+                <div class="text-amber-500 font-semibold">Box Office</div>
+                {{ result.BoxOffice }}
+              </div>
+              <div>
+                <div class="text-amber-500 font-semibold">Awards</div>
+                {{ result.Awards }}
+              </div>
+              <div>
+                <div class="text-amber-500 font-semibold">Cast</div>
+                {{ result.Actors }}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </Transition>
+
+
+
     </div>
   </div>
 </template>
 
 <style scoped>
-.v-enter-active,
-.v-leave-active {
-  transition: all 5s ease-in-out;
+/* we will explain what these classes do next! */
+
+
+.v-enter-from {
+  opacity:0;
+  transform:translateX(100px);
+}
+.v-enter-active{
+  transition: all 1s ease;
 }
 
-.v-enter-from,
-.v-leave-to {
+.slide-enter-from{
   opacity: 0;
+  transform: translatey(100px);
+}
+
+.slide-enter-active {
+  transition: all 1s ease;
 }
 
 .search {
   scrollbar-width: none;
 }
+
 </style>
