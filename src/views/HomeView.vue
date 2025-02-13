@@ -80,7 +80,6 @@ async function fetchTrailer() {
 }
 
 function resetVariables() {
-  dismissKeyboard()
   error.value = null
   result.value = null
   results.value = null
@@ -88,6 +87,7 @@ function resetVariables() {
 }
 
 async function fetchMovie(imdbID: string) {
+  dismissKeyboard()
   resetVariables()
 
   try {
