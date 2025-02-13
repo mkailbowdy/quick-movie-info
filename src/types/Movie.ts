@@ -1,12 +1,3 @@
-const {
-  defineProps,
-  defineSlots,
-  defineEmits,
-  defineExpose,
-  defineModel,
-  defineOptions,
-  withDefaults,
-} = await import('vue')
 export interface Movie {
   Title: string
   Year: string

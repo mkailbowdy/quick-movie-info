@@ -3,7 +3,15 @@ import { ref } from 'vue'
 import type { Movie } from '../types/Movie.ts'
 import { dismissKeyboard } from '../helpers/dismissKeyboard.ts'
 import { debounce } from 'lodash'
-import { apiConfig, youtubeEmbedLink, baseUrlOmdb, paramOmdbType, paramOmdbPlot, paramOmdbMovieTitle, paramOmdbSearchAll } from '../apiConfig.ts';
+import {
+  apiConfig,
+  youtubeEmbedLink,
+  baseUrlOmdb,
+  paramOmdbType,
+  paramOmdbPlot,
+  paramOmdbMovieTitle,
+  paramOmdbSearchAll,
+} from '../apiConfig.ts'
 
 const error = ref(null)
 const result = ref<Movie | null>(null)
@@ -43,7 +51,7 @@ function overallScore() {
 
 async function fetchTrailer() {
   if (!result.value) {
-    console.error("No result value available")
+    console.error('No result value available')
     return
   }
   try {
