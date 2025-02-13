@@ -21,8 +21,11 @@ const watchIt = ref(0)
 const youtubeID = ref('')
 const loading = ref(false)
 
-function loadingState() {
-  loading.value = !loading.value
+function loadingStateOn() {
+  loading.value = true
+}
+function loadingStateOff(){
+  loading.value = false
 }
 
 function overallScore() {
@@ -88,7 +91,7 @@ async function fetchMovie(imdbID: string) {
   resetVariables()
 
   try {
-    loadingState()
+    loadingStateOn()
     const response = await fetch(
       baseUrlOmdb + paramOmdbType + paramOmdbPlot + paramOmdbMovieTitle + imdbID,
     )
@@ -103,12 +106,12 @@ async function fetchMovie(imdbID: string) {
     if (data.Error) {
       error.value = data.Error
       console.error('Promise failed to resolve')
-      loadingState()
+      loadingStateOff()
       return
     }
 
     result.value = data
-    loadingState()
+    loadingStateOff()
     overallScore()
     await fetchTrailer()
   } catch (e) {
@@ -117,8 +120,8 @@ async function fetchMovie(imdbID: string) {
 }
 async function searchAll() {
   resetVariables()
-
   try {
+    loadingStateOn()
     const response = await fetch(baseUrlOmdb + paramOmdbType + paramOmdbSearchAll + query.value)
     if (!response.ok) {
       console.log('Promise failed to resolve')
@@ -129,7 +132,7 @@ async function searchAll() {
   } catch (e) {
     console.error(e)
   } finally {
-    loadingState()
+    loadingStateOff()
   }
 }
 const debouncedSearch = debounce(searchAll, 300)
