@@ -93,13 +93,21 @@ async function fetchMovie(imdbID: string) {
 const results = ref<Movie[] | null>(null)
 
 async function searchAll() {
-  const response = await fetch(baseUrlOmdb + paramOmdbType + paramOmdbSearchAll + query.value)
-  if (!response.ok) {
-    throw new Error()
+  loading.value = true
+  try{
+    const response = await fetch(baseUrlOmdb + paramOmdbType + paramOmdbSearchAll + query.value)
+    if (!response.ok) {
+      throw new Error()
+    }
+    const data = await response.json()
+    console.log(data)
+    results.value = data.Search.filter((item: Movie) => item.Poster !== 'N/A')
+  } catch(e) {
+    console.error(e)
+  } finally {
+    loading.value = false
   }
-  const data = await response.json()
-  console.log(data)
-  results.value = data.Search.filter((item: Movie) => item.Poster !== 'N/A')
+
 }
 
 const deboucedSearch = debounce(searchAll, 300)
