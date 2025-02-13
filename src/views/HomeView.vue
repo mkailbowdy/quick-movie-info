@@ -6,7 +6,7 @@ import ButtonComponent from '@/components/ButtonComponent.vue'
 
 const baseUrlKinocheck = 'https://api.kinocheck.com/trailers?language=en&imdb_id='
 const baseUrlOmdb = `https://www.omdbapi.com/?apikey=${import.meta.env.VITE_OMDB_API_KEY}`
-const paramOmdbMovieTitle = '&t='
+const paramOmdbMovieTitle = '&i='
 const paramOmdbSearchAll = '&s='
 const paramOmdbPlot = '&plot=full'
 const paramOmdbType = '&type=movie'
@@ -59,8 +59,7 @@ async function fetchTrailer() {
 
 
 
-const choice = ref("")
-async function fetchMovie() {
+async function fetchMovie(imdbID: string) {
   dismissKeyboard()
   if (result.value) {
     result.value = null
@@ -71,7 +70,7 @@ async function fetchMovie() {
   try {
     loading.value = true
     const response = await fetch(
-      baseUrlOmdb + paramOmdbType + paramOmdbPlot + paramOmdbMovieTitle + query.value,
+      baseUrlOmdb + paramOmdbType + paramOmdbPlot + paramOmdbMovieTitle + imdbID,
     )
     if (!response.ok) {
       throw new Error()
@@ -106,9 +105,9 @@ async function searchAll(){
 </script>
 
 <template>
-  <div class="flex flex-col p-4 bg-red-950 items-center">
-    <form @submit.prevent="fetchMovie">
-      <div class="flex flex-col gap-4">
+  <div class="flex flex-col bg-red-950 items-center mb-4">
+    <form>
+      <div class="flex flex-col gap-2 py-3">
         <label for="query" class="block text-3xl font-medium text-center"
           >Enter a movie title</label
         >
@@ -121,15 +120,22 @@ async function searchAll(){
           placeholder="e.g. The Lion King"
           @keyup="searchAll"
         />
-        <div class="self-center">
-          <ButtonComponent size="medium" class="bg-amber-500">Search</ButtonComponent>
-        </div>
+<!--        <div class="self-center">-->
+<!--          <ButtonComponent size="medium" class="bg-amber-500">Search</ButtonComponent>-->
+<!--        </div>-->
         <h3 class="text-red-500">{{ error }}</h3>
       </div>
     </form>
   </div>
-
-  <div v-if="loading" class="flex flex-col items-center justify-center h-screen">
+  <div v-if="results" class="flex gap-8 overflow-x-scroll text-white">
+    <div v-for="result in results" >
+      <div class="w-48" @click="fetchMovie(result.imdbID)">
+        <div>{{result.Title}}</div>
+        <img :src="result.Poster" alt="movie poster">
+      </div>
+    </div>
+  </div>
+  <div v-if="loading" class="flex justify-center pt-8">
     <div class="loader"></div>
   </div>
   <div class="mx-auto max-w-7xl px-4 pt-4 pb-4 sm:px-6 lg:px-8" v-else>
@@ -217,14 +223,7 @@ async function searchAll(){
   </div>
 
 
-  <div v-if="results" class="flex gap-4 overflow-x-scroll text-white">
-    <div v-for="result in results" >
-      <div class="w-64" @click="fetchMovie">
-        <div>{{result.Title}}</div>
-        <img :src="result.Poster" alt="movie poster">
-      </div>
-    </div>
-  </div>
+
 
 
 </template>
