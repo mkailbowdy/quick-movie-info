@@ -57,8 +57,6 @@ async function fetchTrailer() {
   }
 }
 
-
-
 async function fetchMovie(imdbID: string) {
   dismissKeyboard()
   if (result.value) {
@@ -94,14 +92,14 @@ async function fetchMovie(imdbID: string) {
 
 const results = ref<Movie[] | null>(null)
 
-async function searchAll(){
+async function searchAll() {
   const response = await fetch(baseUrlOmdb + paramOmdbType + paramOmdbSearchAll + query.value)
   if (!response.ok) {
     throw new Error()
   }
   const data = await response.json()
   console.log(data)
-  results.value = data.Search.filter((item: Movie) => item.Poster !== "N/A" )
+  results.value = data.Search.filter((item: Movie) => item.Poster !== 'N/A')
 }
 
 const deboucedSearch = debounce(searchAll, 300)
@@ -123,18 +121,18 @@ const deboucedSearch = debounce(searchAll, 300)
           placeholder="e.g. The Lion King"
           @keyup="deboucedSearch"
         />
-<!--        <div class="self-center">-->
-<!--          <ButtonComponent size="medium" class="bg-amber-500">Search</ButtonComponent>-->
-<!--        </div>-->
+        <!--        <div class="self-center">-->
+        <!--          <ButtonComponent size="medium" class="bg-amber-500">Search</ButtonComponent>-->
+        <!--        </div>-->
         <h3 class="text-red-500">{{ error }}</h3>
       </div>
     </form>
   </div>
-  <div v-if="results" class="flex gap-8 overflow-x-scroll text-white">
-    <div v-for="result in results" >
+  <div v-if="results" class="flex gap-8 overflow-x-scroll text-white search">
+    <div v-for="result in results">
       <div class="w-48" @click="fetchMovie(result.imdbID)">
-        <div>{{result.Title}}</div>
-        <img :src="result.Poster" alt="movie poster">
+        <div>{{ result.Title }}</div>
+        <img :src="result.Poster" alt="movie poster" />
       </div>
     </div>
   </div>
@@ -224,11 +222,6 @@ const deboucedSearch = debounce(searchAll, 300)
       </div>
     </div>
   </div>
-
-
-
-
-
 </template>
 
 <style scoped>
@@ -240,5 +233,9 @@ const deboucedSearch = debounce(searchAll, 300)
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+.search {
+  scrollbar-width: none;
 }
 </style>
