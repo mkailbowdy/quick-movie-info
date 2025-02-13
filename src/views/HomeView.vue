@@ -15,17 +15,23 @@ import {
 
 const error = ref(null)
 const result = ref<Movie | null>(null)
+const results = ref<Movie[] | null>(null)
 const query = ref('')
 const watchIt = ref(0)
 const youtubeID = ref('')
 const loading = ref(false)
+
+function loadingState() {
+  loading.value = !loading.value
+}
 
 function overallScore() {
   let imdb
   let rottenTomatoes
 
   if (!result.value) {
-    throw new Error()
+    console.log('There is no result value')
+    return
   }
 
   switch (result.value.Ratings.length) {
@@ -46,6 +52,7 @@ function overallScore() {
       watchIt.value = Math.floor((imdb + rottenTomatoes + metacritic) / 3)
       return
   }
+
   throw new Error()
 }
 
@@ -69,47 +76,48 @@ async function fetchTrailer() {
   }
 }
 
-async function fetchMovie(imdbID: string) {
+function resetVariables() {
   dismissKeyboard()
-  result.value = null
-  youtubeID.value = ''
   error.value = null
+  result.value = null
+  results.value = null
+  youtubeID.value = ''
+}
+
+async function fetchMovie(imdbID: string) {
+  resetVariables()
 
   try {
-    loading.value = true
+    loadingState()
     const response = await fetch(
       baseUrlOmdb + paramOmdbType + paramOmdbPlot + paramOmdbMovieTitle + imdbID,
     )
+
     if (!response.ok) {
       console.error('Promise failed to resolve')
       return
     }
+
     const data = await response.json()
 
     if (data.Error) {
-      loading.value = false
       error.value = data.Error
       console.error('Promise failed to resolve')
+      loadingState()
       return
     }
 
     result.value = data
-    console.log(result.value)
-    loading.value = false
-    results.value = null
+    loadingState()
     overallScore()
     await fetchTrailer()
   } catch (e) {
     console.error(e)
   }
 }
-
-const results = ref<Movie[] | null>(null)
-
 async function searchAll() {
-  loading.value = true
-  results.value = null
-  result.value = null
+  resetVariables()
+
   try {
     const response = await fetch(baseUrlOmdb + paramOmdbType + paramOmdbSearchAll + query.value)
     if (!response.ok) {
@@ -117,15 +125,13 @@ async function searchAll() {
       return
     }
     const data = await response.json()
-    console.log(data)
     results.value = data.Search.filter((item: Movie) => item.Poster !== 'N/A')
   } catch (e) {
     console.error(e)
   } finally {
-    loading.value = false
+    loadingState()
   }
 }
-
 const debouncedSearch = debounce(searchAll, 300)
 </script>
 
@@ -150,7 +156,7 @@ const debouncedSearch = debounce(searchAll, 300)
     </form>
   </div>
 
-  <div v-if="loading" class="loader absolute bottom-0"></div>
+  <div v-if="loading" class="loader absolute top-2 left-2"></div>
 
   <Transition>
     <div v-if="results" class="flex gap-8 overflow-x-scroll text-white search">
@@ -180,7 +186,6 @@ const debouncedSearch = debounce(searchAll, 300)
               height="315"
               :src="youtubeID"
               title="YouTube video player"
-              frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
               allowfullscreen
