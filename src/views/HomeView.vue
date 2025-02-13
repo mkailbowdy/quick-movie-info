@@ -3,14 +3,7 @@ import { ref } from 'vue'
 import type { Movie } from '../types/Movie.ts'
 import { dismissKeyboard } from '../helpers/dismissKeyboard.ts'
 import { debounce } from 'lodash'
-
-const baseUrlKinocheck = 'https://api.kinocheck.com/trailers?language=en&imdb_id='
-const baseUrlOmdb = `https://www.omdbapi.com/?apikey=${import.meta.env.VITE_OMDB_API_KEY}`
-const paramOmdbMovieTitle = '&i='
-const paramOmdbSearchAll = '&s='
-const paramOmdbPlot = '&plot=full'
-const paramOmdbType = '&type=movie'
-const youtubeEmbedLink = 'https://www.youtube.com/embed/'
+import { apiConfig, youtubeEmbedLink, baseUrlOmdb, paramOmdbType, paramOmdbPlot, paramOmdbMovieTitle, paramOmdbSearchAll } from '../apiConfig.ts';
 
 const error = ref(null)
 const result = ref<Movie | null>(null)
@@ -20,40 +13,51 @@ const youtubeID = ref('')
 const loading = ref(false)
 
 function overallScore() {
-  if (result.value?.Ratings.length === 3) {
-    const imdb = (parseFloat(result.value.imdbRating) / 10) * 100
-    const rottenTomatoes = parseInt(result.value.Ratings[1].Value)
-    const metacritic = parseFloat(
-      result.value.Ratings[2].Value.slice(0, result.value.Ratings[2].Value.indexOf('/' + 1)),
-    )
-    return (watchIt.value = Math.floor((imdb + rottenTomatoes + metacritic) / 3))
+  let imdb
+  let rottenTomatoes
+
+  if (!result.value) {
+    throw new Error()
   }
 
-  if (result.value?.Ratings.length === 2) {
-    const imdb = (parseFloat(result.value.imdbRating) / 10) * 100
-    const rottenTomatoes = parseInt(result.value.Ratings[1].Value)
-    return (watchIt.value = Math.floor((imdb + rottenTomatoes) / 2))
+  switch (result.value.Ratings.length) {
+    case 1:
+      watchIt.value = Math.floor((parseFloat(result.value.imdbRating) / 10) * 100)
+      return
+    case 2:
+      imdb = (parseFloat(result.value.imdbRating) / 10) * 100
+      rottenTomatoes = parseInt(result.value.Ratings[1].Value)
+      watchIt.value = Math.floor((imdb + rottenTomatoes) / 2)
+      return
+    case 3:
+      imdb = (parseFloat(result.value.imdbRating) / 10) * 100
+      rottenTomatoes = parseInt(result.value.Ratings[1].Value)
+      const metacritic = parseFloat(
+        result.value.Ratings[2].Value.slice(0, result.value.Ratings[2].Value.indexOf('/' + 1)),
+      )
+      watchIt.value = Math.floor((imdb + rottenTomatoes + metacritic) / 3)
+      return
   }
-
-  if (result.value?.Ratings.length === 1) {
-    return (watchIt.value = Math.floor((parseFloat(result.value.imdbRating) / 10) * 100))
-  }
-
   throw new Error()
 }
 
 async function fetchTrailer() {
-  if (result.value) {
-    try {
-      const response = await fetch(baseUrlKinocheck + result.value.imdbID)
-      const data = await response.json()
-      if (data.message) {
-        throw new Error(data.message)
-      }
-      youtubeID.value = youtubeEmbedLink + data[0].youtube_video_id
-    } catch (e) {
-      console.error(e)
+  if (!result.value) {
+    console.error("No result value available")
+    return
+  }
+  try {
+    const response = await fetch(apiConfig + result.value.imdbID)
+    const data = await response.json()
+
+    if (data.message) {
+      console.error(data.message)
+      return
     }
+
+    youtubeID.value = youtubeEmbedLink + data[0].youtube_video_id
+  } catch (e) {
+    console.error(e)
   }
 }
 
@@ -69,14 +73,18 @@ async function fetchMovie(imdbID: string) {
       baseUrlOmdb + paramOmdbType + paramOmdbPlot + paramOmdbMovieTitle + imdbID,
     )
     if (!response.ok) {
-      throw new Error()
+      console.error('Promise failed to resolve')
+      return
     }
     const data = await response.json()
+
     if (data.Error) {
       loading.value = false
       error.value = data.Error
-      throw new Error(data.Error)
+      console.error('Promise failed to resolve')
+      return
     }
+
     result.value = data
     console.log(result.value)
     loading.value = false
@@ -97,7 +105,8 @@ async function searchAll() {
   try {
     const response = await fetch(baseUrlOmdb + paramOmdbType + paramOmdbSearchAll + query.value)
     if (!response.ok) {
-      throw new Error()
+      console.log('Promise failed to resolve')
+      return
     }
     const data = await response.json()
     console.log(data)
@@ -109,11 +118,10 @@ async function searchAll() {
   }
 }
 
-const deboucedSearch = debounce(searchAll, 300)
+const debouncedSearch = debounce(searchAll, 300)
 </script>
 
 <template>
-
   <div class="flex flex-col bg-gray-800 items-center mb-4">
     <form @submit.prevent="dismissKeyboard">
       <div class="flex flex-col gap-2 py-3">
@@ -127,7 +135,7 @@ const deboucedSearch = debounce(searchAll, 300)
           id="query"
           class="block w-full rounded-full bg-white px-4 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-amber-400 sm:text-sm/6"
           placeholder="e.g. The Lion King"
-          @keyup="deboucedSearch"
+          @keyup="debouncedSearch"
         />
         <h3 class="text-red-500">{{ error }}</h3>
       </div>
@@ -150,8 +158,6 @@ const deboucedSearch = debounce(searchAll, 300)
   <div class="mx-auto max-w-7xl px-4 pt-4 pb-4 sm:px-6 lg:px-8">
     <!-- We've used 3xl here, but feel free to try other max-widths based on your needs -->
     <div class="mx-auto max-w-3xl">
-
-
       <Transition name="slide">
         <div class="flex flex-col gap-1" v-if="result">
           <div class="text-4xl">{{ result.Title }}</div>
@@ -232,9 +238,6 @@ const deboucedSearch = debounce(searchAll, 300)
           </div>
         </div>
       </Transition>
-
-
-
     </div>
   </div>
 </template>
@@ -242,16 +245,15 @@ const deboucedSearch = debounce(searchAll, 300)
 <style scoped>
 /* we will explain what these classes do next! */
 
-
 .v-enter-from {
-  opacity:0;
-  transform:translateX(100px);
+  opacity: 0;
+  transform: translateX(100px);
 }
-.v-enter-active{
+.v-enter-active {
   transition: all 1s ease;
 }
 
-.slide-enter-from{
+.slide-enter-from {
   opacity: 0;
   transform: translatey(100px);
 }
@@ -263,5 +265,4 @@ const deboucedSearch = debounce(searchAll, 300)
 .search {
   scrollbar-width: none;
 }
-
 </style>
