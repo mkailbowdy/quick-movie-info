@@ -90,9 +90,9 @@ async function fetchMovie() {
 </script>
 
 <template>
-  <div class="flex flex-col bg-red-950 items-center">
+  <div class="flex flex-col p-4 bg-red-950 items-center">
     <form @submit.prevent="fetchMovie">
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-4">
         <label for="query" class="block text-3xl font-medium text-center"
           >Enter a movie title</label
         >
@@ -170,22 +170,29 @@ async function fetchMovie() {
           <h3 class="text-3xl">Plot Summary</h3>
           <p class="text-md tracking-wide leading-loose">{{ result.Plot }}</p>
         </div>
-        <div
-          class="text-lg flex flex-col bg-gray-800 p-4 rounded justify-center gap-2"
-        >
+        <div class="text-lg flex flex-col bg-gray-800 p-4 rounded justify-center gap-2">
           <img v-if="youtubeID" :src="result.Poster" alt="movie poster" />
           <div class="divide-y divide-gray-600 leading-relaxed flex flex-col gap-1">
             <div>
-              <div class="text-amber-500 font-semibold">Director</div> {{ result.Director }}
+              <div class="text-amber-500 font-semibold">Director</div>
+              {{ result.Director }}
             </div>
             <div>
-              <div class="text-amber-500 font-semibold">Writer</div> {{ result.Writer }}</div>
+              <div class="text-amber-500 font-semibold">Writer</div>
+              {{ result.Writer }}
+            </div>
             <div>
-              <div class="text-amber-500 font-semibold">Box Office</div> {{ result.BoxOffice }}</div>
+              <div class="text-amber-500 font-semibold">Box Office</div>
+              {{ result.BoxOffice }}
+            </div>
             <div>
-              <div class="text-amber-500 font-semibold">Awards</div> {{ result.Awards }}</div>
+              <div class="text-amber-500 font-semibold">Awards</div>
+              {{ result.Awards }}
+            </div>
             <div>
-              <div class="text-amber-500 font-semibold">Cast</div> {{ result.Actors }}</div>
+              <div class="text-amber-500 font-semibold">Cast</div>
+              {{ result.Actors }}
+            </div>
           </div>
         </div>
       </div>
