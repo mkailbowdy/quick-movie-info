@@ -90,7 +90,7 @@ async function fetchMovie() {
 </script>
 
 <template>
-  <div class="flex flex-col p-4 bg-red-950 items-center">
+  <div class="flex flex-col bg-red-950 items-center">
     <form @submit.prevent="fetchMovie">
       <div class="flex flex-col gap-2">
         <label for="query" class="block text-3xl font-medium text-center"
@@ -115,10 +115,10 @@ async function fetchMovie() {
   <div v-if="loading" class="flex flex-col items-center justify-center h-screen">
     <div class="loader"></div>
   </div>
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" v-else>
+  <div class="mx-auto max-w-7xl px-4 pt-4 pb-4 sm:px-6 lg:px-8" v-else>
     <!-- We've used 3xl here, but feel free to try other max-widths based on your needs -->
     <div class="mx-auto max-w-3xl">
-      <div class="flex flex-col p-2 pt-8 gap-1" v-if="result">
+      <div class="flex flex-col gap-1" v-if="result">
         <div class="text-4xl">{{ result.Title }}</div>
         <div class="text-gray-500 text-sm flex justify-between">
           <span>{{ result.Rated }}・{{ result.Runtime }}・{{ result.Year }}</span>
@@ -166,19 +166,27 @@ async function fetchMovie() {
           <h2 class="text-2xl text-amber-500 font-bold">Overall Score</h2>
           <h3 class="text-5xl border-4 border-amber-500 rounded-full p-2">{{ watchIt }}</h3>
         </div>
-        <div class="pb-4">
-          <h3 class="text-2xl">Plot Summary</h3>
-          <div>{{ result.Plot }}</div>
+        <div class="pb-4 flex flex-col gap-2">
+          <h3 class="text-3xl">Plot Summary</h3>
+          <p class="text-md tracking-wide leading-loose">{{ result.Plot }}</p>
         </div>
         <div
-          class="text-lg flex flex-col divide-y divide-gray-600 bg-gray-800 p-4 rounded justify-center"
+          class="text-lg flex flex-col bg-gray-800 p-4 rounded justify-center gap-2"
         >
           <img v-if="youtubeID" :src="result.Poster" alt="movie poster" />
-          <div>Director: {{ result.Director }}</div>
-          <div>Writer: {{ result.Writer }}</div>
-          <div>Box Office: {{ result.BoxOffice }}</div>
-          <div>Awards: {{ result.Awards }}</div>
-          <div>Cast: {{ result.Actors }}</div>
+          <div class="divide-y divide-gray-600 leading-relaxed flex flex-col gap-1">
+            <div>
+              <div class="text-amber-500 font-semibold">Director</div> {{ result.Director }}
+            </div>
+            <div>
+              <div class="text-amber-500 font-semibold">Writer</div> {{ result.Writer }}</div>
+            <div>
+              <div class="text-amber-500 font-semibold">Box Office</div> {{ result.BoxOffice }}</div>
+            <div>
+              <div class="text-amber-500 font-semibold">Awards</div> {{ result.Awards }}</div>
+            <div>
+              <div class="text-amber-500 font-semibold">Cast</div> {{ result.Actors }}</div>
+          </div>
         </div>
       </div>
     </div>
