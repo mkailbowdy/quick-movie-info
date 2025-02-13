@@ -106,7 +106,6 @@ async function searchAll(){
 
 <template>
   <div class="flex flex-col bg-red-950 items-center mb-4">
-    <form>
       <div class="flex flex-col gap-2 py-3">
         <label for="query" class="block text-3xl font-medium text-center"
           >Enter a movie title</label
@@ -125,7 +124,6 @@ async function searchAll(){
 <!--        </div>-->
         <h3 class="text-red-500">{{ error }}</h3>
       </div>
-    </form>
   </div>
   <div v-if="results" class="flex gap-8 overflow-x-scroll text-white">
     <div v-for="result in results" >
