@@ -63,7 +63,6 @@ async function fetchMovie(imdbID: string) {
     result.value = null
     youtubeID.value = ''
     error.value = null
-    results.value = null
   }
 
   try {
@@ -83,6 +82,7 @@ async function fetchMovie(imdbID: string) {
     result.value = data
     console.log(result.value)
     loading.value = false
+    results.value = null
     overallScore()
     await fetchTrailer()
   } catch (e) {
@@ -106,10 +106,10 @@ const deboucedSearch = debounce(searchAll, 300)
 </script>
 
 <template>
-  <div class="flex flex-col bg-red-950 items-center mb-4">
+  <div class="flex flex-col bg-gray-800 items-center mb-4">
     <form @submit.prevent="dismissKeyboard">
       <div class="flex flex-col gap-2 py-3">
-        <label for="query" class="block text-3xl font-medium text-center"
+        <label for="query" class="block text-3xl font-medium text-center text-amber-500"
           >Enter a movie title</label
         >
         <input
@@ -117,7 +117,7 @@ const deboucedSearch = debounce(searchAll, 300)
           type="text"
           name="query"
           id="query"
-          class="block w-full rounded-full bg-white px-4 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+          class="block w-full rounded-full bg-white px-4 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-amber-400 sm:text-sm/6"
           placeholder="e.g. The Lion King"
           @keyup="deboucedSearch"
         />
@@ -130,7 +130,7 @@ const deboucedSearch = debounce(searchAll, 300)
   </div>
   <div v-if="results" class="flex gap-8 overflow-x-scroll text-white search">
     <div v-for="result in results">
-      <div class="w-48" @click="fetchMovie(result.imdbID)">
+      <div class="w-48 cursor-pointer" @click="fetchMovie(result.imdbID)">
         <div>{{ result.Title }}</div>
         <img :src="result.Poster" alt="movie poster" />
       </div>
