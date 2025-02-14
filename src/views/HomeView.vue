@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, reactive, watch } from 'vue'
+import { gsap } from "gsap";
 import type { Movie } from '../types/Movie.ts'
 import { dismissKeyboard } from '../helpers/dismissKeyboard.ts'
 import { debounce } from 'lodash'
@@ -17,9 +18,17 @@ const error = ref(null)
 const result = ref<Movie | null>(null)
 const results = ref<Movie[] | null>(null)
 const query = ref('')
-const score = ref(0)
 const youtubeID = ref('')
 const loading = ref(false)
+
+const score = ref(0)
+const tweened = reactive({
+  score: 0
+})
+
+watch(score, (n)=>{
+  gsap.to(tweened, {duration: 2, score: Number(n)})
+})
 
 function loadingStateOn() {
   loading.value = true
@@ -84,6 +93,7 @@ function resetVariables() {
   result.value = null
   results.value = null
   youtubeID.value = ''
+  score.value = 0
 }
 
 async function fetchMovie(imdbID: string) {
@@ -237,7 +247,7 @@ const debouncedSearch = debounce(searchAll, 300)
           </div>
           <div class="flex items-center gap-4 justify-center p-4 mt-4 mb-4 border-4 border-yellow-500">
             <h2 class="text-2xl text-amber-500 font-bold">Overall Score</h2>
-            <h3 class="text-5xl border-4 border-amber-500 rounded-full p-2">{{ score }}</h3>
+            <h3 class="text-5xl border-4 border-amber-500 rounded-full p-2">{{ tweened.score.toFixed(0) }}</h3>
           </div>
           <div class="md:flex md:gap-4">
             <div class="pb-4 flex md:w-1/2 flex-col gap-2">
