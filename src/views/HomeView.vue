@@ -33,7 +33,7 @@ function overallScore() {
   let rottenTomatoes
 
   if (!result.value) {
-    console.log('There is no result value')
+    console.error('There is no result value')
     return
   }
 
@@ -124,10 +124,14 @@ async function searchAll() {
     loadingStateOn()
     const response = await fetch(baseUrlOmdb + paramOmdbType + paramOmdbSearchAll + query.value)
     if (!response.ok) {
-      console.log('Promise failed to resolve')
+      console.error('Promise failed to resolve')
       return
     }
     const data = await response.json()
+    if(data.Error){
+      console.error(data.Error)
+      return
+    }
     results.value = data.Search.filter((item: Movie) => item.Poster !== 'N/A')
   } catch (e) {
     console.error(e)
