@@ -169,18 +169,16 @@ const debouncedSearch = debounce(searchAll, 300)
     <Transition>
       <div
         v-if="results"
-        class="search flex md:justify-center pt-4 pb-4 gap-8 overflow-x-scroll md:overflow-visible md:flex-wrap"
+        class="search flex md:justify-center pt-4 pb-4 gap-4 overflow-x-scroll md:overflow-visible md:flex-wrap"
       >
         <div
           v-for="result in results"
           :key="result.Title"
-          class="flex flex-col cursor-pointer flex-shrink-0 md:opacity-70 md:hover:opacity-100 md:transition-opacity"
+          class="flex flex-col w-64 cursor-pointer flex-shrink-0 md:opacity-70 md:hover:opacity-100 md:transition-opacity"
           @click="fetchMovie(result.imdbID)"
         >
-          <img :src="result.Poster" class="h-96 w-80 object-cover" alt="movie poster" />
-          <div>
-            <p>{{ result.Title }}</p>
-          </div>
+          <img :src="result.Poster" class="h-96 object-cover" alt="movie poster" />
+            <p class="">{{ result.Title }}</p>
         </div>
       </div>
     </Transition>
