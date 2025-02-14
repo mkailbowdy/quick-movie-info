@@ -173,7 +173,7 @@ const debouncedSearch = debounce(searchAll, 300)
           class="flex flex-col cursor-pointer flex-shrink-0 sm:opacity-70 sm:hover:opacity-100"
           @click="fetchMovie(result.imdbID)"
         >
-          <img :src="result.Poster" alt="movie poster"/>
+          <img :src="result.Poster" alt="movie poster" />
           <div>
             <small>{{ result.Title }}</small>
           </div>
@@ -182,18 +182,17 @@ const debouncedSearch = debounce(searchAll, 300)
     </Transition>
   </div>
 
-
   <div class="mx-auto max-w-7xl px-4 pt-4 pb-4 sm:px-6 lg:px-8">
     <!-- We've used 3xl here, but feel free to try other max-widths based on your needs -->
     <div class="mx-auto max-w-3xl">
       <Transition name="slide">
-        <div class="flex flex-col gap-1" v-if="result">
+        <div class="flex flex-col" v-if="result">
           <div class="text-4xl">{{ result.Title }}</div>
-          <div class="text-gray-500 text-sm flex justify-between">
+          <div class="flex justify-between text-gray-500 text-sm">
             <span>{{ result.Rated }}・{{ result.Runtime }}・{{ result.Year }}</span>
             <span>{{ result.Genre }}</span>
           </div>
-          <div class="pt-4">
+          <div class="pt-4 pb-4">
             <iframe
               v-if="youtubeID"
               class="w-full"
@@ -204,8 +203,12 @@ const debouncedSearch = debounce(searchAll, 300)
               referrerpolicy="strict-origin-when-cross-origin"
               allowfullscreen
             ></iframe>
-            <div v-else class="flex justify-center">
-              <img :src="result.Poster" alt="movie poster" />
+            <div v-else>
+              <img
+                :src="result.Poster"
+                class="mx-auto border border-gray-500 border-opacity-20"
+                alt="movie poster"
+              />
             </div>
           </div>
           <div class="flex justify-between">
@@ -230,7 +233,7 @@ const debouncedSearch = debounce(searchAll, 300)
               <div v-else class="text-3xl text-white">-</div>
             </div>
           </div>
-          <div class="flex items-center gap-4 justify-center pt-2 pb-2">
+          <div class="flex items-center gap-4 justify-center pt-4 pb-4">
             <h2 class="text-2xl text-amber-500 font-bold">Overall Score</h2>
             <h3 class="text-5xl border-4 border-amber-500 rounded-full p-2">{{ watchIt }}</h3>
           </div>
@@ -238,7 +241,10 @@ const debouncedSearch = debounce(searchAll, 300)
             <h3 class="text-3xl">Plot Summary</h3>
             <p class="text-md tracking-wide leading-loose">{{ result.Plot }}</p>
           </div>
-          <div class="text-lg flex flex-col bg-gray-800 p-4 rounded justify-center gap-2">
+
+          <div
+            class="flex flex-col sm:flex-row mx-auto text-lg bg-gray-800 p-4 rounded justify-center gap-2 sm:gap-8"
+          >
             <img v-if="youtubeID" :src="result.Poster" alt="movie poster" />
             <div class="divide-y divide-gray-600 leading-relaxed flex flex-col gap-1">
               <div>
