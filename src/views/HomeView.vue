@@ -143,7 +143,7 @@ const debouncedSearch = debounce(searchAll, 300)
 </script>
 
 <template>
-  <div class="flex flex-col bg-gray-800">
+  <div class="flex flex-col bg-gray-800 w-full">
     <form @submit.prevent="dismissKeyboard">
       <div class="flex flex-col gap-2 py-3">
         <label for="query" class="block text-3xl font-medium text-center text-amber-500"
@@ -154,7 +154,7 @@ const debouncedSearch = debounce(searchAll, 300)
           type="text"
           name="query"
           id="query"
-          class="block w-full rounded-full bg-white px-4 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-amber-400 sm:text-sm/6"
+          class="block w-80 mx-auto rounded-full bg-white px-4 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-amber-400 sm:text-sm/6"
           placeholder="e.g. The Lion King"
           @keyup="debouncedSearch"
         />
@@ -241,39 +241,46 @@ const debouncedSearch = debounce(searchAll, 300)
             <h2 class="text-2xl text-amber-500 font-bold">Overall Score</h2>
             <h3 class="text-5xl border-4 border-amber-500 rounded-full p-2">{{ watchIt }}</h3>
           </div>
-          <div class="pb-4 flex flex-col gap-2">
-            <h3 class="text-3xl">Plot Summary</h3>
-            <p class="text-md tracking-wide leading-loose">{{ result.Plot }}</p>
-          </div>
+          <div class="sm:flex sm:gap-4">
+            <div class="pb-4 flex sm:w-1/2 flex-col gap-2">
+              <h3 class="text-3xl">Plot Summary</h3>
+              <p class="text-md tracking-wide leading-loose">{{ result.Plot }}</p>
+            </div>
+            <div
+              class="flex flex-col sm:w-1/2 sm:flex-row mx-auto text-lg bg-gray-800 p-4 rounded justify-center"
+            >
+              <div class="flex flex-col gap-4">
+                <div class="mx-auto">
+                  <img v-if="youtubeID" :src="result.Poster" alt="movie poster" class="border-4 border-gray-500 border-opacity-80"/>
+                </div>
+                <div class="divide-y divide-gray-700">
+                <div class="flex flex-col">
+                  <div class="text-amber-500 font-semibold">Director</div>
+                  <span>{{ result.Director }}</span>
+                </div>
+                  <div>
+                    <div class="text-amber-500 font-semibold">Writer</div>
+                    {{ result.Writer }}
+                  </div>
+                  <div>
+                    <div class="text-amber-500 font-semibold">Box Office</div>
+                    {{ result.BoxOffice }}
+                  </div>
+                  <div>
+                    <div class="text-amber-500 font-semibold">Awards</div>
+                    {{ result.Awards }}
+                  </div>
+                  <div>
+                    <div class="text-amber-500 font-semibold">Cast</div>
+                    {{ result.Actors }}
+                  </div>
+                </div>
 
-          <div
-            class="flex flex-col sm:flex-row mx-auto text-lg bg-gray-800 p-4 rounded justify-center gap-2 sm:gap-8"
-          >
-            <img v-if="youtubeID" :src="result.Poster" alt="movie poster" />
-            <div class="divide-y divide-gray-600 leading-relaxed flex flex-col gap-1">
-              <div>
-                <div class="text-amber-500 font-semibold">Director</div>
-                {{ result.Director }}
-              </div>
-              <div>
-                <div class="text-amber-500 font-semibold">Writer</div>
-                {{ result.Writer }}
-              </div>
-              <div>
-                <div class="text-amber-500 font-semibold">Box Office</div>
-                {{ result.BoxOffice }}
-              </div>
-              <div>
-                <div class="text-amber-500 font-semibold">Awards</div>
-                {{ result.Awards }}
-              </div>
-              <div>
-                <div class="text-amber-500 font-semibold">Cast</div>
-                {{ result.Actors }}
               </div>
             </div>
           </div>
-        </div>
+          </div>
+
       </Transition>
     </div>
   </div>
