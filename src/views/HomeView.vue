@@ -154,7 +154,7 @@ const debouncedSearch = debounce(searchAll, 300)
           type="text"
           name="query"
           id="query"
-          class="block w-80 mx-auto rounded-full bg-white px-4 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-amber-400 sm:text-sm/6"
+          class="block w-80 mx-auto rounded-full bg-white px-4 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-amber-400 md:text-sm/6"
           placeholder="e.g. The Lion King"
           @keyup="debouncedSearch"
         />
@@ -169,24 +169,24 @@ const debouncedSearch = debounce(searchAll, 300)
     <Transition>
       <div
         v-if="results"
-        class="search flex sm:justify-center pt-4 pb-4 gap-8 overflow-x-scroll sm:overflow-visible sm:flex-wrap"
+        class="search flex md:justify-center pt-4 pb-4 gap-8 overflow-x-scroll md:overflow-visible md:flex-wrap"
       >
         <div
           v-for="result in results"
           :key="result.Title"
-          class="flex flex-col cursor-pointer flex-shrink-0 sm:opacity-70 sm:hover:opacity-100"
+          class="flex flex-col cursor-pointer flex-shrink-0 md:opacity-70 md:hover:opacity-100 md:transition-opacity"
           @click="fetchMovie(result.imdbID)"
         >
-          <img :src="result.Poster" alt="movie poster" />
+          <img :src="result.Poster" class="h-96 w-80 object-cover" alt="movie poster" />
           <div>
-            <small>{{ result.Title }}</small>
+            <p>{{ result.Title }}</p>
           </div>
         </div>
       </div>
     </Transition>
   </div>
 
-  <div class="mx-auto max-w-7xl px-4 pt-4 pb-4 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-7xl px-4 pt-4 pb-4 md:px-6 md:px-8">
     <!-- We've used 3xl here, but feel free to try other max-widths based on your needs -->
     <div class="mx-auto max-w-3xl">
       <Transition name="slide">
@@ -241,13 +241,13 @@ const debouncedSearch = debounce(searchAll, 300)
             <h2 class="text-2xl text-amber-500 font-bold">Overall Score</h2>
             <h3 class="text-5xl border-4 border-amber-500 rounded-full p-2">{{ watchIt }}</h3>
           </div>
-          <div class="sm:flex sm:gap-4">
-            <div class="pb-4 flex sm:w-1/2 flex-col gap-2">
+          <div class="md:flex md:gap-4">
+            <div class="pb-4 flex md:w-1/2 flex-col gap-2">
               <h3 class="text-3xl">Plot Summary</h3>
               <p class="text-md tracking-wide leading-loose">{{ result.Plot }}</p>
             </div>
             <div
-              class="flex flex-col sm:w-1/2 sm:flex-row mx-auto text-lg bg-gray-800 p-4 rounded justify-center"
+              class="flex flex-col md:w-1/2 md:flex-row mx-auto text-lg bg-gray-800 p-4 rounded justify-center"
             >
               <div class="flex flex-col gap-4">
                 <div v-if="youtubeID" class="mx-auto">
