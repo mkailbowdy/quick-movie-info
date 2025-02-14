@@ -17,7 +17,7 @@ const error = ref(null)
 const result = ref<Movie | null>(null)
 const results = ref<Movie[] | null>(null)
 const query = ref('')
-const watchIt = ref(0)
+const score = ref(0)
 const youtubeID = ref('')
 const loading = ref(false)
 
@@ -39,12 +39,12 @@ function overallScore() {
 
   switch (result.value.Ratings.length) {
     case 1:
-      watchIt.value = Math.floor((parseFloat(result.value.imdbRating) / 10) * 100)
+      score.value = Math.floor((parseFloat(result.value.imdbRating) / 10) * 100)
       return
     case 2:
       imdb = (parseFloat(result.value.imdbRating) / 10) * 100
       rottenTomatoes = parseInt(result.value.Ratings[1].Value)
-      watchIt.value = Math.floor((imdb + rottenTomatoes) / 2)
+      score.value = Math.floor((imdb + rottenTomatoes) / 2)
       return
     case 3:
       imdb = (parseFloat(result.value.imdbRating) / 10) * 100
@@ -52,7 +52,7 @@ function overallScore() {
       const metacritic = parseFloat(
         result.value.Ratings[2].Value.slice(0, result.value.Ratings[2].Value.indexOf('/' + 1)),
       )
-      watchIt.value = Math.floor((imdb + rottenTomatoes + metacritic) / 3)
+      score.value = Math.floor((imdb + rottenTomatoes + metacritic) / 3)
       return
   }
 
@@ -235,9 +235,9 @@ const debouncedSearch = debounce(searchAll, 300)
               <div v-else class="text-3xl text-white">-</div>
             </div>
           </div>
-          <div class="flex items-center gap-4 justify-center pt-4 pb-4">
+          <div class="flex items-center gap-4 justify-center p-4 mt-4 mb-4 border-4 border-yellow-500">
             <h2 class="text-2xl text-amber-500 font-bold">Overall Score</h2>
-            <h3 class="text-5xl border-4 border-amber-500 rounded-full p-2">{{ watchIt }}</h3>
+            <h3 class="text-5xl border-4 border-amber-500 rounded-full p-2">{{ score }}</h3>
           </div>
           <div class="md:flex md:gap-4">
             <div class="pb-4 flex md:w-1/2 flex-col gap-2">
