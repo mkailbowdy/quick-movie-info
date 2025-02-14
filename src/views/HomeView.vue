@@ -250,8 +250,8 @@ const debouncedSearch = debounce(searchAll, 300)
               class="flex flex-col sm:w-1/2 sm:flex-row mx-auto text-lg bg-gray-800 p-4 rounded justify-center"
             >
               <div class="flex flex-col gap-4">
-                <div class="mx-auto">
-                  <img v-if="youtubeID" :src="result.Poster" alt="movie poster" class="border-4 border-gray-500 border-opacity-80"/>
+                <div v-if="youtubeID" class="mx-auto">
+                  <img :src="result.Poster" alt="movie poster" class="border-4 border-gray-500 border-opacity-80"/>
                 </div>
                 <div class="divide-y divide-gray-700">
                 <div class="flex flex-col">
