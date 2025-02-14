@@ -24,7 +24,7 @@ const loading = ref(false)
 function loadingStateOn() {
   loading.value = true
 }
-function loadingStateOff(){
+function loadingStateOff() {
   loading.value = false
 }
 
@@ -139,7 +139,7 @@ const debouncedSearch = debounce(searchAll, 300)
 </script>
 
 <template>
-  <div class="flex flex-col bg-gray-800 items-center mb-4">
+  <div class="flex flex-col bg-gray-800">
     <form @submit.prevent="dismissKeyboard">
       <div class="flex flex-col gap-2 py-3">
         <label for="query" class="block text-3xl font-medium text-center text-amber-500"
@@ -159,18 +159,29 @@ const debouncedSearch = debounce(searchAll, 300)
     </form>
   </div>
 
-  <div v-if="loading" class="loader absolute top-8 left-4"></div>
+  <div v-if="loading" class="loader absolute top-4 left-4"></div>
 
-  <Transition>
-    <div v-if="results" class="flex gap-8 overflow-x-scroll text-white search">
-      <div v-for="result in results" :key="result.Title">
-        <div class="w-48 cursor-pointer" @click="fetchMovie(result.imdbID)">
-          <div>{{ result.Title }}</div>
-          <img :src="result.Poster" alt="movie poster" />
+  <div class="flex">
+    <Transition>
+      <div
+        v-if="results"
+        class="search flex sm:justify-center pt-4 pb-4 gap-8 overflow-x-scroll sm:overflow-visible sm:flex-wrap"
+      >
+        <div
+          v-for="result in results"
+          :key="result.Title"
+          class="flex flex-col cursor-pointer flex-shrink-0 sm:opacity-70 sm:hover:opacity-100"
+          @click="fetchMovie(result.imdbID)"
+        >
+          <img :src="result.Poster" alt="movie poster"/>
+          <div>
+            <small>{{ result.Title }}</small>
+          </div>
         </div>
       </div>
-    </div>
-  </Transition>
+    </Transition>
+  </div>
+
 
   <div class="mx-auto max-w-7xl px-4 pt-4 pb-4 sm:px-6 lg:px-8">
     <!-- We've used 3xl here, but feel free to try other max-widths based on your needs -->

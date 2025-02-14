@@ -18,7 +18,7 @@ input {
 /* HTML: <div class="loader"></div> */
 /* HTML: <div class="loader"></div> */
 .loader {
-  width: 50px;
+  width: 25px;
   aspect-ratio: 1;
   display: grid;
   color: #514b82;
