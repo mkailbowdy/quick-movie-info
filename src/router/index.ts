@@ -8,7 +8,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: ReviewView,
     },
     {
       path: '/about',
@@ -21,7 +21,7 @@ const router = createRouter({
     {
       path: '/mightyscout-application',
       name: 'mightyscout',
-      component: ReviewView
+      component: HomeView
     }
   ],
 })
