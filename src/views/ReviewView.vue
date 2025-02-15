@@ -154,7 +154,7 @@ onMounted(()=>{
   setTimeout(()=>{
     query.value = "Late Night with The Devil"
     searchAll()
-  }, 1000)
+  }, 500)
 })
 const firstTime = ref(true)
 </script>
