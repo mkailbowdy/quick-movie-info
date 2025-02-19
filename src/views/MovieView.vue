@@ -227,14 +227,14 @@ watch(score, (n) => {
               </p>
             </div>
             <div
-              class="flex flex-col md:w-1/2 md:flex-row mx-auto text-lg bg-gray-800 p-4 rounded justify-center"
+              class="flex flex-col md:w-1/2 md:flex-row mx-auto text-lg rounded justify-center"
             >
-              <div class="flex flex-col gap-4">
+              <div class="flex flex-col gap-4 bg-gray-800 self-start p-4 rounded">
                 <div v-if="youtubeID" class="mx-auto">
                   <img
                     :src="result.Poster"
                     alt="movie poster"
-                    class="border-4 border-gray-500 border-opacity-80"
+                    class="border-1 border-gray-500 border-opacity-80"
                   />
                 </div>
                 <div class="divide-y divide-gray-700">

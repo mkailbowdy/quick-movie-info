@@ -8,7 +8,6 @@ export const useMovieStore = defineStore('movie', () => {
   function clearResults() {
     results.value = null
   }
-
   async function searchAll(query: string) {
     clearResults()
     try {
