@@ -1,5 +1,10 @@
 <script setup lang="ts">
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { dismissKeyboard } from '@/helpers/dismissKeyboard.ts'
+import { useRoute } from 'vue-router'
+import { useMovieStore } from '@/stores/movie.ts'
+import { useLoader } from '@/composables/useLoader.ts'
+import { gsap } from 'gsap'
 import {
   apiConfig,
   baseUrlOmdb,
@@ -8,26 +13,21 @@ import {
   paramOmdbType,
   youtubeEmbedLink,
 } from '@/apiConfig.ts'
-import { computed, onMounted, reactive, ref, watch } from 'vue'
-import type { Movie } from '@/types/Movie.ts'
-import { gsap } from 'gsap'
-import { useRoute } from 'vue-router'
 import SearchComponent from '@/components/SearchComponent.vue'
-import { useMovieStore } from '@/stores/movie.ts'
-import { useLoader } from '@/composables/useLoader.ts'
+import type { Movie } from '@/types/Movie.ts'
 
 const { clearResults } = useMovieStore()
 const { loading, loadingStateOn, loadingStateOff } = useLoader()
 const route = useRoute()
-const imdbID = computed(() => {
-  return route.query.imdbID as string
-})
 const error = ref(null)
 const result = ref<Movie | null>(null)
 const youtubeID = ref('')
 const score = ref(0)
 const tweened = reactive({
   score: 0,
+})
+const imdbID = computed(() => {
+  return route.query.imdbID as string
 })
 
 function resetVariables() {
@@ -226,9 +226,7 @@ watch(score, (n) => {
                 about the craft of cinema.
               </p>
             </div>
-            <div
-              class="flex flex-col md:w-1/2 md:flex-row mx-auto text-lg rounded justify-center"
-            >
+            <div class="flex flex-col md:w-1/2 md:flex-row mx-auto text-lg rounded justify-center">
               <div class="flex flex-col gap-4 bg-gray-800 self-start p-4 rounded">
                 <div v-if="youtubeID" class="mx-auto">
                   <img
