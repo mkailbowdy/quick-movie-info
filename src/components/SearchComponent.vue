@@ -19,18 +19,20 @@ const debouncedSearch = debounce(async () => {
 </script>
 <template>
   <div v-if="loading" class="loader absolute top-4 left-4"></div>
-  <div class="flex flex-col bg-gray-800 w-full">
+  <div class="flex flex-col w-full">
     <form @submit.prevent="dismissKeyboard">
-      <div class="flex flex-col gap-2 py-3">
-        <label for="query" class="block text-3xl font-medium text-center text-amber-500"
-          >Enter a movie title</label
+      <div class="flex flex-col gap-2 p-8">
+        <h1
+          class="heading text-5xl font-medium text-center text-red-500 leading-relaxed tracking-wide"
         >
+          Movie DB
+        </h1>
         <input
           v-model="query"
           type="text"
           name="query"
           id="query"
-          class="block w-80 mx-auto rounded-full bg-white px-4 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-amber-400 md:text-sm/6"
+          class="bg-gray-800 w-64 px-4 py-2 self-center focus:shadow-[0px_0px_30px] focus:shadow-red-800 focus:outline focus:outline-1 focus:outline-red-800 focus:ring-red-500"
           placeholder="e.g. The Lion King"
           @keyup="debouncedSearch"
         />
@@ -47,7 +49,7 @@ const debouncedSearch = debounce(async () => {
         <RouterLink
           v-for="result in results"
           :key="result.imdbID"
-          class="flex flex-col w-64 cursor-pointer flex-shrink-0 md:opacity-70 md:hover:opacity-100 md:transition-opacity"
+          class="popup flex flex-col w-64 cursor-pointer flex-shrink-0 md:opacity-70 md:hover:opacity-100 md:transition-opacity"
           :to="{ name: 'movie', query: { imdbID: result.imdbID } }"
         >
           <img :src="result.Poster" class="h-96 object-cover" alt="movie poster" />
@@ -67,5 +69,12 @@ const debouncedSearch = debounce(async () => {
 }
 .search {
   scrollbar-width: none;
+}
+
+.popup {
+  transition: all 0.3s ease;
+}
+.popup:hover {
+  transform: translateY(-10px);
 }
 </style>
