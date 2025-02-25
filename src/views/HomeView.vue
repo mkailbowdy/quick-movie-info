@@ -3,23 +3,38 @@ import SearchComponent from '@/components/SearchComponent.vue'
 </script>
 <template>
   <SearchComponent />
-  <div class="text-center p-4">
-    <h1 class="text-3xl">Hi <span class="text-amber-500 border-b">Mighty Scout</span>!</h1>
-    <div class="pt-4">
-      <p class="text-gray-300">Read my review of my favorite movie!</p>
-      <RouterLink
-        :to="{ name: 'movie', query: { imdbID: 'tt14966898' } }"
-        class="text-2xl text-indigo-500 hover:text-red-500 transition"
-        >Late Night with the Devil<span class="ml-2">&rarr;</span></RouterLink
-      >
+  <section class="py-12">
+    <div class="space-y-4 w-3/4">
+      <h2 class="max-w-2xl text-3xl tracking-tight text-strong sm:text-4xl xl:text-5xl/[1.2]">Film Lookup</h2>
+      <p class="max-w-2xl text-base text-default sm:text-lg text-neutral-400">
+        Get the basic info of the movies you're interested in -- no spammy links
+      </p>
     </div>
-    <!--    <h1 class="animate slideInLeft animate&#45;&#45;fast text-5xl">Hello, World!</h1>-->
-    <!--    <h1 class="animate slideInLeft animate&#45;&#45;slow text-5xl">Hello, World!</h1>-->
-    <!--    <h1 class="animate slideInLeft animate&#45;&#45;infinite text-5xl">Hello, World!</h1>-->
-    <!--    <h1 class="animate slideInLeft animate&#45;&#45;delay-1s text-5xl">Hello, World!</h1>-->
-    <!--    <h1 class="animate slideInLeft text-5xl">Hello, World!</h1>-->
-    <!--    <h1 class="inline-block animate bounce text-5xl">Hello, World!</h1>-->
-  </div>
+    <div class="flex gap-4 -rotate-6 skew-x-12 mt-12 w-5/12">
+      <img src="/nosferatu.jpg" />
+      <img src="/avatar.jpg" />
+      <img src="/latenight.jpg"  />
+      <img src="/starwars.jpg"  />
+    </div>
+  </section>
+  <section class="py-12">
+    <div class="bg-gray-800 p-4 w-3/4 reviews">
+      <div class="space-y-4 w-3/4">
+        <h2 class="max-w-2xl text-3xl tracking-tight text-strong sm:text-4xl xl:text-5xl/[1.2]">Our Reviews</h2>
+        <p class="max-w-2xl text-base text-default sm:text-lg text-neutral-400">
+          We're film lovers. Read our reviews first before committing the time to watch.
+        </p>
+        <div>
+          <RouterLink
+            :to="{ name: 'movie', query: { imdbID: 'tt14966898' } }"
+            class="text-indigo-500 hover:text-red-500 transition"
+          >Late Night with the Devil<span class="ml-2">&rarr;</span></RouterLink
+          >
+        </div>
+      </div>
+    </div>
+  </section>
+
 </template>
 <style scoped>
 /* Utility Class */
@@ -102,5 +117,12 @@ import SearchComponent from '@/components/SearchComponent.vue'
 .btn:hover {
   transform: translateY(-10px);
   background-color: purple;
+}
+.reviews{
+  box-shadow: none;
+  transition: all 0.3s ease-out;
+}
+.reviews:hover{
+  box-shadow: 16px 16px teal;
 }
 </style>
