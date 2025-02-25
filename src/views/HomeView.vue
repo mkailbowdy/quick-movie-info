@@ -10,12 +10,16 @@ import SearchComponent from '@/components/SearchComponent.vue'
         Get the basic info of the movies you're interested in -- no spammy links
       </p>
     </div>
-    <div class="flex gap-4 -rotate-6 skew-x-12 mt-12 w-5/12">
-      <img src="/nosferatu.jpg" />
-      <img src="/avatar.jpg" />
-      <img src="/latenight.jpg"  />
-      <img src="/starwars.jpg"  />
+    <div class="gallery">
+      <div class="flex gap-4 -rotate-6 skew-x-12 mt-12 -ml-8 w-5/12 ">
+        <img src="/nosferatu.jpg"/>
+        <img src="/dune.jpg" />
+        <img src="/latenight.jpg"  />
+        <img src="/starwars.jpg"  />
+        <img src="/avatar.jpg"  />
+      </div>
     </div>
+
   </section>
   <section class="py-12">
     <div class="bg-gray-800 p-4 w-3/4 reviews">
