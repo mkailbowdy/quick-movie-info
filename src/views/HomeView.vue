@@ -2,24 +2,24 @@
 import SearchComponent from '@/components/SearchComponent.vue'
 import { onMounted } from 'vue'
 
-onMounted(()=>{
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      console.log(entry)
-      if (entry.isIntersecting) {
-        entry.target.classList.add('reviews')
-      }
-    })
-  }, {
-    root: null,
-    rootMargin: "0px",
-    threshold: 1.0,
-  })
-  const ele = document.querySelector('#reviews')
-  if(ele){
-    observer.observe(ele)
-  }
-})
+// onMounted(()=>{
+//   const observer = new IntersectionObserver((entries) => {
+//     entries.forEach((entry) => {
+//       console.log(entry)
+//       if (entry.isIntersecting) {
+//         entry.target.classList.add('reviews')
+//       }
+//     })
+//   }, {
+//     root: null,
+//     rootMargin: "0px",
+//     threshold: 1.0,
+//   })
+//   const ele = document.querySelector('#reviews')
+//   if(ele){
+//     observer.observe(ele)
+//   }
+// })
 
 </script>
 <template>
@@ -31,7 +31,7 @@ onMounted(()=>{
         Get the basic info of the movies you're interested in -- no spammy links.
       </p>
     </div>
-    <div class="gallery bg-neutral-800">
+    <div class="gallery bg-neutral-800 overflow-hidden">
       <div class="flex gap-4 -rotate-3 skew-x-12 mt-12 -ml-8 w-7/12">
         <img src="/nosferatu.jpg" class="shadow-xl shadow-black"/>
         <img src="/dune.jpg" class="shadow-xl shadow-black"/>
@@ -43,7 +43,7 @@ onMounted(()=>{
 
   </section>
   <section class="py-8">
-    <div id="reviews" class="bg-gray-800 p-4 w-3/4">
+    <div id="reviews" class="bg-gray-800 p-4 w-3/4 reviews">
       <div class="space-y-4 w-3/4">
         <h2 class="max-w-2xl text-3xl tracking-tight text-strong sm:text-4xl xl:text-5xl/[1.2]">Our Reviews</h2>
         <p class="max-w-2xl text-base text-default sm:text-lg text-neutral-400">
@@ -142,9 +142,20 @@ onMounted(()=>{
   transform: translateY(-10px);
   background-color: purple;
 }
+
 .reviews{
   box-shadow: 16px 16px teal;
-  transition: all 0.3s ease-out;
+}
+
+@media screen and (min-width: 400px) {
+  .reviews{
+    box-shadow: none;
+    transition: all 0.3s ease-out;
+
+  }
+  .reviews:hover{
+    box-shadow: 16px 16px teal;
+  }
 }
 
 
