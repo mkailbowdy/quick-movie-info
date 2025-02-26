@@ -1,5 +1,28 @@
 <script setup lang="ts">
 import SearchComponent from '@/components/SearchComponent.vue'
+import { onMounted } from 'vue'
+
+onMounted(()=>{
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      console.log(entry)
+      if (entry.isIntersecting) {
+        entry.target.classList.add('reviews')
+      } else {
+        entry.target.classList.remove('reviews')
+      }
+    })
+  }, {
+    root: null,
+    rootMargin: "0px",
+    threshold: 1.0,
+  })
+  const ele = document.querySelector('.reviews')
+  if(ele){
+    observer.observe(ele)
+  }
+})
+
 </script>
 <template>
   <SearchComponent />
@@ -10,15 +33,13 @@ import SearchComponent from '@/components/SearchComponent.vue'
         Get the basic info of the movies you're interested in -- no spammy links
       </p>
     </div>
-    <div class="gallery">
-      <div class="flex gap-4 -rotate-6 skew-x-12 mt-12 -ml-8 w-5/12 ">
-        <img src="/nosferatu.jpg"/>
-        <img src="/dune.jpg" />
-        <img src="/latenight.jpg"  />
-        <img src="/starwars.jpg"  />
-        <img src="/avatar.jpg"  />
+      <div class="flex gap-4 -rotate-6 skew-x-12 mt-12 -ml-8 w-7/12 overflow-x-visible">
+        <img src="/nosferatu.jpg" class="gallery"/>
+        <img src="/dune.jpg" class="gallery"/>
+        <img src="/latenight.jpg"  class="gallery"/>
+        <img src="/starwars.jpg"  class="gallery"/>
+        <img src="/avatar.jpg"  class="gallery"/>
       </div>
-    </div>
 
   </section>
   <section class="py-12">
@@ -38,7 +59,6 @@ import SearchComponent from '@/components/SearchComponent.vue'
       </div>
     </div>
   </section>
-
 </template>
 <style scoped>
 /* Utility Class */
@@ -123,10 +143,10 @@ import SearchComponent from '@/components/SearchComponent.vue'
   background-color: purple;
 }
 .reviews{
-  box-shadow: none;
+  box-shadow: 16px 16px teal;
   transition: all 0.3s ease-out;
 }
-.reviews:hover{
-  box-shadow: 16px 16px teal;
-}
+
+
+
 </style>
