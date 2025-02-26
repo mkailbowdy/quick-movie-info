@@ -4,7 +4,7 @@ import SearchComponent from '@/components/SearchComponent.vue'
 <template>
   <SearchComponent />
   <section class="py-8">
-    <div class="space-y-4">
+    <div class="space-y-4 overflow-hidden">
       <h2 class="max-w-2xl text-3xl tracking-tight text-strong sm:text-4xl xl:text-5xl/[1.2]">
         Film Lookup
       </h2>
@@ -18,7 +18,6 @@ import SearchComponent from '@/components/SearchComponent.vue'
         <img src="/dune.jpg" class="shadow-xl shadow-black" />
         <img src="/latenight.jpg" class="shadow-xl shadow-black" />
         <img src="/starwars.jpg" class="shadow-xl shadow-black" />
-        <img src="/avatar.jpg" class="shadow-xl shadow-black" />
       </div>
     </div>
   </section>
