@@ -3,7 +3,7 @@ import SearchComponent from '@/components/SearchComponent.vue'
 </script>
 <template>
   <SearchComponent />
-  <section class="py-8">
+  <section class="py-6">
     <div class="space-y-4">
       <h2 class="max-w-2xl text-3xl tracking-tight text-strong sm:text-4xl xl:text-5xl/[1.2]">
         Film Lookup
@@ -13,8 +13,7 @@ import SearchComponent from '@/components/SearchComponent.vue'
       </p>
     </div>
     <div class="bg-neutral-800">
-<!--      <div class="gallery flex gap-4 -rotate-3 skew-x-12 mt-12 -ml-8 w-7/12">-->
-      <div class="gallery flex gap-4 -rotate-3 skew-x-12 mt-12 w-7/12">
+      <div class="gallery flex gap-4 -rotate-6 skew-x-12 mt-12 -ml-8 w-5/12">
         <img src="/nosferatu.jpg" class="shadow-xl shadow-black" />
         <img src="/dune.jpg" class="shadow-xl shadow-black" />
         <img src="/latenight.jpg" class="shadow-xl shadow-black" />
@@ -22,7 +21,7 @@ import SearchComponent from '@/components/SearchComponent.vue'
       </div>
     </div>
   </section>
-  <section class="py-8">
+  <section class="py-6">
     <div id="reviews" class="bg-gray-800 p-4 w-3/4 reviews">
       <div class="space-y-4 w-3/4">
         <h2 class="max-w-2xl text-3xl tracking-tight text-strong sm:text-4xl xl:text-5xl/[1.2]">
