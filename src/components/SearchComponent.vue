@@ -18,9 +18,9 @@ const debouncedSearch = debounce(async () => {
 }, 300)
 </script>
 <template>
-  <div class="p-2">
+  <div class="py-4">
     <form @submit.prevent="dismissKeyboard">
-      <div class="flex gap-4 items-center">
+      <div class="flex gap-4 items-center justify-start">
         <RouterLink to="/"
           ><div
             class="aspect-square rounded-full flex items-center bg-gray-700 p-1 border-2 border-amber-500 transition hover:rotate-6"
@@ -28,18 +28,16 @@ const debouncedSearch = debounce(async () => {
             FilmDB
           </div></RouterLink
         >
-        <div class="relative w-full">
-          <input
-            class="block w-full bg-gray-800 rounded-full px-4 mx-auto h-12"
-            v-model="query"
-            type="text"
-            name="query"
-            id="query"
-            placeholder="find a movie"
-            @keyup="debouncedSearch"
-          />
-          <div v-if="loading" class="loader absolute right-3 top-3"></div>
-        </div>
+        <input
+          class="bg-gray-800 rounded-full px-4 py-2 w-96"
+          v-model="query"
+          type="text"
+          name="query"
+          id="query"
+          placeholder="find a movie"
+          @keyup="debouncedSearch"
+        />
+        <div v-if="loading" class="loader absolute right-3 top-3"></div>
       </div>
     </form>
   </div>

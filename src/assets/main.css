@@ -5,7 +5,8 @@
 :root {
   --main-bg-color: brown;
 }
-html, body {
+html,
+body {
   overflow-x: hidden;
 }
 body {

@@ -133,11 +133,13 @@ watch(score, (n) => {
 })
 </script>
 <template>
-  <SearchComponent />
   <div class="mx-auto max-w-7xl px-4 pt-4 pb-4 sm:px-6 md:px-8">
     <div v-show="!result" class="loader transition absolute z-50"></div>
     <!-- We've used 3xl here, but feel free to try other max-widths based on your needs -->
     <div class="mx-auto max-w-3xl">
+      <div class="mt-16">
+        <SearchComponent />
+      </div>
       <Transition name="slide">
         <div class="flex flex-col" v-if="result">
           <div class="text-4xl">{{ result.Title }}</div>
@@ -157,11 +159,7 @@ watch(score, (n) => {
               allowfullscreen
             ></iframe>
             <div v-else>
-              <img
-                :src="result.Poster"
-                class="mx-auto border-4 border-black"
-                alt="movie poster"
-              />
+              <img :src="result.Poster" class="mx-auto border-4 border-black" alt="movie poster" />
             </div>
           </div>
           <div class="flex justify-between">
@@ -229,11 +227,7 @@ watch(score, (n) => {
             <div class="flex flex-col md:w-1/2 md:flex-row mx-auto text-lg rounded justify-center">
               <div class="flex flex-col gap-4 bg-gray-800 self-start p-4 rounded">
                 <div v-if="youtubeID" class="mx-auto">
-                  <img
-                    :src="result.Poster"
-                    alt="movie poster"
-                    class="border-4 border-black"
-                  />
+                  <img :src="result.Poster" alt="movie poster" class="border-4 border-black" />
                 </div>
                 <div class="divide-y divide-gray-700">
                   <div class="flex flex-col">

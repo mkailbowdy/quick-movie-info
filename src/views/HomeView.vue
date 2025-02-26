@@ -128,7 +128,7 @@ import SearchComponent from '@/components/SearchComponent.vue'
   box-shadow: 16px 16px teal;
 }
 
-div.gallery img{
+div.gallery img {
   box-shadow: -10px 10px 2px 0 black;
   border: 3px solid black;
 }
