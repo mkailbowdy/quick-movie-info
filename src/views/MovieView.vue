@@ -188,8 +188,8 @@ watch(score, (n) => {
             {{ tweened.score.toFixed(0) }}
           </h3>
         </div>
-        <div class="md:flex md:gap-4">
-          <div class="pb-4 flex md:w-1/2 flex-col gap-2">
+        <div class="md:flex md:gap-4 justify-between">
+          <div class="pb-4 flex flex-col gap-2 md:w-3/4">
             <h3 v-if="result.imdbID !== 'tt14966898'" class="text-3xl">Plot Summary</h3>
             <h3 v-else class="text-3xl">My Favorite Movie</h3>
             <p v-if="result.imdbID !== 'tt14966898'" class="text-md tracking-wide leading-loose">
@@ -219,12 +219,12 @@ watch(score, (n) => {
               to me that there are still creators that care about the craft of cinema.
             </p>
           </div>
-          <div class="flex flex-col md:w-1/2 md:flex-row mx-auto text-lg rounded justify-center">
-            <div class="flex flex-col gap-4 bg-gray-800 self-start p-4 rounded">
+          <div class="flex flex-col text-lg rounded">
+            <div class="flex flex-col gap-4 bg-gray-800 p-8 rounded mx-auto">
               <div v-if="youtubeID" class="mx-auto">
                 <img :src="result.Poster" alt="movie poster" class="border-4 border-black" />
               </div>
-              <div class="divide-y divide-gray-700">
+              <div class="divide-y divide-gray-700 leading-loose">
                 <div class="flex flex-col">
                   <div class="text-amber-500 font-semibold">Director</div>
                   <span>{{ result.Director }}</span>
