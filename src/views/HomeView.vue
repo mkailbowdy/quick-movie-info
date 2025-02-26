@@ -12,7 +12,7 @@ import SearchComponent from '@/components/SearchComponent.vue'
         Get the basic info of the movies you're interested in -- no spammy links.
       </p>
     </div>
-    <div class="gallery bg-neutral-800 overflow-hidden">
+    <div class="gallery bg-neutral-800">
       <div class="flex gap-4 -rotate-3 skew-x-12 mt-12 -ml-8 w-7/12">
         <img src="/nosferatu.jpg" class="shadow-xl shadow-black" />
         <img src="/dune.jpg" class="shadow-xl shadow-black" />
