@@ -21,7 +21,13 @@ const debouncedSearch = debounce(async () => {
   <div class="p-2">
     <form @submit.prevent="dismissKeyboard">
       <div class="flex gap-4 items-center">
-        <RouterLink to="/"><div class="aspect-square rounded-full flex items-center bg-gray-700 p-1 border-2 border-amber-500 transition hover:rotate-6">FilmDB</div></RouterLink>
+        <RouterLink to="/"
+          ><div
+            class="aspect-square rounded-full flex items-center bg-gray-700 p-1 border-2 border-amber-500 transition hover:rotate-6"
+          >
+            FilmDB
+          </div></RouterLink
+        >
         <div class="relative w-full">
           <input
             class="block w-full bg-gray-800 rounded-full px-4 mx-auto h-12"
@@ -34,7 +40,6 @@ const debouncedSearch = debounce(async () => {
           />
           <div v-if="loading" class="loader absolute right-3 top-3"></div>
         </div>
-
       </div>
     </form>
   </div>
@@ -75,6 +80,4 @@ const debouncedSearch = debounce(async () => {
 .popup:hover {
   transform: translateY(-10px);
 }
-
-
 </style>

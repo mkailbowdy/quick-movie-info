@@ -1,51 +1,33 @@
 <script setup lang="ts">
 import SearchComponent from '@/components/SearchComponent.vue'
-import { onMounted } from 'vue'
-
-// onMounted(()=>{
-//   const observer = new IntersectionObserver((entries) => {
-//     entries.forEach((entry) => {
-//       console.log(entry)
-//       if (entry.isIntersecting) {
-//         entry.target.classList.add('reviews')
-//       }
-//     })
-//   }, {
-//     root: null,
-//     rootMargin: "0px",
-//     threshold: 1.0,
-//   })
-//   const ele = document.querySelector('#reviews')
-//   if(ele){
-//     observer.observe(ele)
-//   }
-// })
-
 </script>
 <template>
   <SearchComponent />
   <section class="py-8">
     <div class="space-y-4">
-      <h2 class="max-w-2xl text-3xl tracking-tight text-strong sm:text-4xl xl:text-5xl/[1.2]">Film Lookup</h2>
+      <h2 class="max-w-2xl text-3xl tracking-tight text-strong sm:text-4xl xl:text-5xl/[1.2]">
+        Film Lookup
+      </h2>
       <p class="max-w-2xl text-base text-default sm:text-lg text-neutral-400">
         Get the basic info of the movies you're interested in -- no spammy links.
       </p>
     </div>
     <div class="gallery bg-neutral-800 overflow-hidden">
       <div class="flex gap-4 -rotate-3 skew-x-12 mt-12 -ml-8 w-7/12">
-        <img src="/nosferatu.jpg" class="shadow-xl shadow-black"/>
-        <img src="/dune.jpg" class="shadow-xl shadow-black"/>
-        <img src="/latenight.jpg"  class="shadow-xl shadow-black"/>
-        <img src="/starwars.jpg"  class="shadow-xl shadow-black"/>
-        <img src="/avatar.jpg"  class="shadow-xl shadow-black"/>
+        <img src="/nosferatu.jpg" class="shadow-xl shadow-black" />
+        <img src="/dune.jpg" class="shadow-xl shadow-black" />
+        <img src="/latenight.jpg" class="shadow-xl shadow-black" />
+        <img src="/starwars.jpg" class="shadow-xl shadow-black" />
+        <img src="/avatar.jpg" class="shadow-xl shadow-black" />
       </div>
     </div>
-
   </section>
   <section class="py-8">
     <div id="reviews" class="bg-gray-800 p-4 w-3/4 reviews">
       <div class="space-y-4 w-3/4">
-        <h2 class="max-w-2xl text-3xl tracking-tight text-strong sm:text-4xl xl:text-5xl/[1.2]">Our Reviews</h2>
+        <h2 class="max-w-2xl text-3xl tracking-tight text-strong sm:text-4xl xl:text-5xl/[1.2]">
+          Our Reviews
+        </h2>
         <p class="max-w-2xl text-base text-default sm:text-lg text-neutral-400">
           We're film lovers. Read our reviews first before committing the time to watch.
         </p>
@@ -53,7 +35,7 @@ import { onMounted } from 'vue'
           <RouterLink
             :to="{ name: 'movie', query: { imdbID: 'tt14966898' } }"
             class="text-indigo-500 hover:text-red-500 transition"
-          >Late Night with the Devil<span class="ml-2">&rarr;</span></RouterLink
+            >Late Night with the Devil<span class="ml-2">&rarr;</span></RouterLink
           >
         </div>
       </div>
@@ -143,21 +125,17 @@ import { onMounted } from 'vue'
   background-color: purple;
 }
 
-.reviews{
+.reviews {
   box-shadow: 16px 16px teal;
 }
 
 @media screen and (min-width: 400px) {
-  .reviews{
+  .reviews {
     box-shadow: none;
     transition: all 0.3s ease-out;
-
   }
-  .reviews:hover{
+  .reviews:hover {
     box-shadow: 16px 16px teal;
   }
 }
-
-
-
 </style>

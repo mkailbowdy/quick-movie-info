@@ -26,34 +26,34 @@ onMounted(() => {
       <button class="cool">button4</button>
       <button class="cool">button5</button>
     </div>
-<!--    <section class="hiddens">-->
-<!--      <h1>Hi mom</h1>-->
-<!--      <p>This is my website</p>-->
-<!--    </section>-->
-<!--    <section class="hiddens">-->
-<!--      <h1>Buy my product</h1>-->
-<!--      <p>Let's buy our food to go whe we get to the disnleyhand</p>-->
-<!--    </section>-->
-<!--    <div class="hiddens flex mt-16 flex-col relative justify-center">-->
-<!--      <img src="/dollars.svg" class="z-50 w-1/3">-->
-<!--      <img src="/phone.png" class="floating w-1/3 absolute top-0">-->
-<!--    </div>-->
+    <!--    <section class="hiddens">-->
+    <!--      <h1>Hi mom</h1>-->
+    <!--      <p>This is my website</p>-->
+    <!--    </section>-->
+    <!--    <section class="hiddens">-->
+    <!--      <h1>Buy my product</h1>-->
+    <!--      <p>Let's buy our food to go whe we get to the disnleyhand</p>-->
+    <!--    </section>-->
+    <!--    <div class="hiddens flex mt-16 flex-col relative justify-center">-->
+    <!--      <img src="/dollars.svg" class="z-50 w-1/3">-->
+    <!--      <img src="/phone.png" class="floating w-1/3 absolute top-0">-->
+    <!--    </div>-->
 
-<!--    <h1 class="text-shadow-pop-top text-5xl">Movie DB</h1>-->
-<!--    <div class="h-screen"></div>-->
-<!--    <div class="h-screen"></div>-->
-<!--    <section class="hiddens">-->
-<!--      <h1>Buy my product</h1>-->
-<!--      <p>Let's buy our food to go whe we get to the disnleyhand</p>-->
-<!--    </section>-->
-<!--    <section class="hiddens">-->
-<!--      <h1>Buy my product</h1>-->
-<!--      <p>Let's buy our food to go whe we get to the disnleyhand</p>-->
-<!--    </section>-->
-<!--    <section class="hiddens">-->
-<!--      <h1>Buy my product</h1>-->
-<!--      <p>Let's buy our food to go whe we get to the disnleyhand</p>-->
-<!--    </section>-->
+    <!--    <h1 class="text-shadow-pop-top text-5xl">Movie DB</h1>-->
+    <!--    <div class="h-screen"></div>-->
+    <!--    <div class="h-screen"></div>-->
+    <!--    <section class="hiddens">-->
+    <!--      <h1>Buy my product</h1>-->
+    <!--      <p>Let's buy our food to go whe we get to the disnleyhand</p>-->
+    <!--    </section>-->
+    <!--    <section class="hiddens">-->
+    <!--      <h1>Buy my product</h1>-->
+    <!--      <p>Let's buy our food to go whe we get to the disnleyhand</p>-->
+    <!--    </section>-->
+    <!--    <section class="hiddens">-->
+    <!--      <h1>Buy my product</h1>-->
+    <!--      <p>Let's buy our food to go whe we get to the disnleyhand</p>-->
+    <!--    </section>-->
   </div>
 </template>
 <style scoped>
@@ -96,7 +96,7 @@ section {
 }
 
 .cool {
-  position:relative;
+  position: relative;
   aspect-ratio: 1;
   background-color: red;
   border-radius: 50%;
@@ -110,7 +110,8 @@ section {
   initial-value: 0%;
 }
 
-.cool::before,.cool::after {
+.cool::before,
+.cool::after {
   position: absolute;
   z-index: -1;
   content: '';
@@ -134,41 +135,40 @@ transition-delay: 0s;
 
 .cool:nth-child(1):hover,
 .cool:nth-child(1):focus-visible,
-.cool:nth-child(1):focus-within{
-  --fill: 100%
+.cool:nth-child(1):focus-within {
+  --fill: 100%;
 }
 
 .cool:nth-child(1)::after {
-  display:none;
+  display: none;
 }
 
 .cool:nth-child(2):hover,
 .cool:nth-child(2):focus-visible,
-.cool:nth-child(2):focus-within{
-  --fill: 100%
+.cool:nth-child(2):focus-within {
+  --fill: 100%;
 }
 .cool:nth-child(2)::before {
   transform: rotateY(180deg);
 }
 .cool:nth-child(2)::after {
-  display:none;
+  display: none;
 }
 
 .cool:nth-child(3):hover,
 .cool:nth-child(3):focus-visible,
-.cool:nth-child(3):focus-within{
-  --fill: 50%
+.cool:nth-child(3):focus-within {
+  --fill: 50%;
 }
 
 .cool:nth-child(3)::after {
   transform: rotateY(180deg);
-
 }
 
 .cool:nth-child(4):hover,
 .cool:nth-child(4):focus-visible,
-.cool:nth-child(4):focus-within{
-  --fill: 50%
+.cool:nth-child(4):focus-within {
+  --fill: 50%;
 }
 .cool:nth-child(4)::before {
   transform: rotateX(180deg);
@@ -179,12 +179,10 @@ transition-delay: 0s;
 
 .cool:nth-child(5):hover,
 .cool:nth-child(5):focus-visible,
-.cool:nth-child(5):focus-within{
-  --fill: 50%
+.cool:nth-child(5):focus-within {
+  --fill: 50%;
 }
 .cool:nth-child(5)::after {
   transform: rotate(180deg);
-
 }
-
 </style>
