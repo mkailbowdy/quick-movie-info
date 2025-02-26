@@ -8,8 +8,6 @@ onMounted(()=>{
       console.log(entry)
       if (entry.isIntersecting) {
         entry.target.classList.add('reviews')
-      } else {
-        entry.target.classList.remove('reviews')
       }
     })
   }, {
@@ -17,7 +15,7 @@ onMounted(()=>{
     rootMargin: "0px",
     threshold: 1.0,
   })
-  const ele = document.querySelector('.reviews')
+  const ele = document.querySelector('#reviews')
   if(ele){
     observer.observe(ele)
   }
@@ -26,24 +24,26 @@ onMounted(()=>{
 </script>
 <template>
   <SearchComponent />
-  <section class="py-12">
-    <div class="space-y-4 w-3/4">
+  <section class="py-8">
+    <div class="space-y-4">
       <h2 class="max-w-2xl text-3xl tracking-tight text-strong sm:text-4xl xl:text-5xl/[1.2]">Film Lookup</h2>
       <p class="max-w-2xl text-base text-default sm:text-lg text-neutral-400">
-        Get the basic info of the movies you're interested in -- no spammy links
+        Get the basic info of the movies you're interested in -- no spammy links.
       </p>
     </div>
-      <div class="flex gap-4 -rotate-6 skew-x-12 mt-12 -ml-8 w-7/12 overflow-x-visible">
-        <img src="/nosferatu.jpg" class="gallery"/>
-        <img src="/dune.jpg" class="gallery"/>
-        <img src="/latenight.jpg"  class="gallery"/>
-        <img src="/starwars.jpg"  class="gallery"/>
-        <img src="/avatar.jpg"  class="gallery"/>
+    <div class="gallery bg-neutral-800">
+      <div class="flex gap-4 -rotate-3 skew-x-12 mt-12 -ml-8 w-7/12">
+        <img src="/nosferatu.jpg" class="shadow-xl shadow-black"/>
+        <img src="/dune.jpg" class="shadow-xl shadow-black"/>
+        <img src="/latenight.jpg"  class="shadow-xl shadow-black"/>
+        <img src="/starwars.jpg"  class="shadow-xl shadow-black"/>
+        <img src="/avatar.jpg"  class="shadow-xl shadow-black"/>
       </div>
+    </div>
 
   </section>
-  <section class="py-12">
-    <div class="bg-gray-800 p-4 w-3/4 reviews">
+  <section class="py-8">
+    <div id="reviews" class="bg-gray-800 p-4 w-3/4">
       <div class="space-y-4 w-3/4">
         <h2 class="max-w-2xl text-3xl tracking-tight text-strong sm:text-4xl xl:text-5xl/[1.2]">Our Reviews</h2>
         <p class="max-w-2xl text-base text-default sm:text-lg text-neutral-400">
