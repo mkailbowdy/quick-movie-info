@@ -135,9 +135,9 @@ watch(score, (n) => {
 <template>
   <SearchComponent />
   <div class="mx-auto max-w-7xl px-4 pt-4 pb-4 sm:px-6 md:px-8">
+    <div v-show="!result" class="loader transition absolute z-50"></div>
     <!-- We've used 3xl here, but feel free to try other max-widths based on your needs -->
-    <div class="mx-auto max-w-3xl relative">
-      <div v-show="!result" class="loader transition absolute"></div>
+    <div class="mx-auto max-w-3xl">
       <Transition name="slide">
         <div class="flex flex-col" v-if="result">
           <div class="text-4xl">{{ result.Title }}</div>
@@ -159,7 +159,7 @@ watch(score, (n) => {
             <div v-else>
               <img
                 :src="result.Poster"
-                class="mx-auto border border-gray-500 border-opacity-20"
+                class="mx-auto border-4 border-black"
                 alt="movie poster"
               />
             </div>
@@ -232,7 +232,7 @@ watch(score, (n) => {
                   <img
                     :src="result.Poster"
                     alt="movie poster"
-                    class="border-1 border-gray-500 border-opacity-80"
+                    class="border-4 border-black"
                   />
                 </div>
                 <div class="divide-y divide-gray-700">

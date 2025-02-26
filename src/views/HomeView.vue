@@ -14,10 +14,10 @@ import SearchComponent from '@/components/SearchComponent.vue'
     </div>
     <div class="bg-neutral-800">
       <div class="gallery flex gap-4 -rotate-6 skew-x-12 mt-12 -ml-8 w-5/12">
-        <img src="/nosferatu.jpg" class="shadow-xl shadow-black" />
-        <img src="/dune.jpg" class="shadow-xl shadow-black" />
-        <img src="/latenight.jpg" class="shadow-xl shadow-black" />
-        <img src="/starwars.jpg" class="shadow-xl shadow-black" />
+        <img src="/nosferatu.jpg" />
+        <img src="/dune.jpg" />
+        <img src="/latenight.jpg" />
+        <img src="/starwars.jpg" />
       </div>
     </div>
   </section>
@@ -129,6 +129,8 @@ import SearchComponent from '@/components/SearchComponent.vue'
 }
 
 div.gallery img{
+  box-shadow: -10px 10px 2px 0 black;
+  border: 3px solid black;
 }
 
 @media screen and (min-width: 400px) {
