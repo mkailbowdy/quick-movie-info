@@ -17,7 +17,7 @@ import SearchComponent from '@/components/SearchComponent.vue'
 import type { Movie } from '@/types/Movie.ts'
 
 const { clearResults } = useMovieStore()
-const { loadingStateOn, loadingStateOff } = useLoader()
+const { loading, loadingStateOn, loadingStateOff } = useLoader()
 const route = useRoute()
 const error = ref(null)
 const result = ref<Movie | null>(null)
@@ -133,9 +133,11 @@ watch(score, (n) => {
 })
 </script>
 <template>
-  <SearchComponent />
-  <div>
-    <div v-show="!result" class="loader transition absolute z-50"></div>
+  <div class="overflow-hidden">
+    <SearchComponent />
+    <div v-show="loading" class="grid place-items-center h-screen bg-opacity-0">
+      <div class="loader"></div>
+    </div>
     <Transition name="slide">
       <div class="flex flex-col" v-if="result">
         <div class="text-4xl mb-4">{{ result.Title }}</div>

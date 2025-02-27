@@ -18,15 +18,14 @@ const debouncedSearch = debounce(async () => {
 }, 300)
 </script>
 <template>
-  <div class="py-4">
-    <form @submit.prevent="dismissKeyboard">
+    <form @submit.prevent="dismissKeyboard" class="mt-4">
       <div class="flex gap-4 items-center justify-start">
         <RouterLink to="/"
-          ><div
-            class="aspect-square rounded-full flex items-center bg-gray-700 p-1 border-2 border-amber-500 transition hover:rotate-6"
-          >
-            FilmDB
-          </div></RouterLink
+        ><div
+          class="aspect-square rounded-full flex items-center bg-gray-700 p-1 border-2 border-amber-500 transition hover:rotate-6"
+        >
+          FilmDB
+        </div></RouterLink
         >
         <input
           class="bg-gray-800 rounded-full px-4 py-2 w-96"
@@ -37,28 +36,26 @@ const debouncedSearch = debounce(async () => {
           placeholder="find a movie"
           @keyup="debouncedSearch"
         />
-        <div v-if="loading" class="loader absolute right-3 top-3"></div>
       </div>
     </form>
-  </div>
-  <div class="flex">
-    <Transition>
-      <div
-        v-if="results"
-        class="search flex md:justify-center pt-4 pb-4 gap-4 overflow-x-scroll md:overflow-visible md:flex-wrap"
-      >
-        <RouterLink
-          v-for="result in results"
-          :key="result.imdbID"
-          class="popup flex flex-col w-64 cursor-pointer flex-shrink-0 md:opacity-70 md:hover:opacity-100 md:transition-opacity"
-          :to="{ name: 'movie', query: { imdbID: result.imdbID } }"
+    <div class="flex">
+      <Transition>
+        <div
+          v-if="results"
+          class="search flex md:justify-center pt-4 pb-4 gap-4 overflow-x-scroll md:overflow-visible md:flex-wrap"
         >
-          <img :src="result.Poster" class="h-96 object-cover" alt="movie poster" />
-          <p class="">{{ result.Title }}</p>
-        </RouterLink>
-      </div>
-    </Transition>
-  </div>
+          <RouterLink
+            v-for="result in results"
+            :key="result.imdbID"
+            class="popup flex flex-col w-64 cursor-pointer flex-shrink-0 md:opacity-70 md:hover:opacity-100 md:transition-opacity"
+            :to="{ name: 'movie', query: { imdbID: result.imdbID } }"
+          >
+            <img :src="result.Poster" class="h-96 object-cover" alt="movie poster" />
+            <p class="">{{ result.Title }}</p>
+          </RouterLink>
+        </div>
+      </Transition>
+    </div>
 </template>
 <style scoped>
 .v-enter-from {
