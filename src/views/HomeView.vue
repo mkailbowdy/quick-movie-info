@@ -41,17 +41,17 @@ import { onMounted } from 'vue'
       </div>
     </div>
   </section>
-  <section class="py-6">
-    <div class="space-y-4">
-      <h2 class="max-w-2xl text-3xl tracking-tight text-strong sm:text-4xl xl:text-5xl/[1.2]">
-        Share your Favorites
-      </h2>
-      <span class="text-indigo-600">*coming soon*</span>
-      <p class="max-w-2xl text-base text-default sm:text-lg text-neutral-400">
-        Add all the movies you love and show it to your friends and family
-      </p>
-    </div>
-  </section>
+<!--  <section class="py-6">-->
+<!--    <div class="space-y-4">-->
+<!--      <h2 class="max-w-2xl text-3xl tracking-tight text-strong sm:text-4xl xl:text-5xl/[1.2]">-->
+<!--        Share your Favorites-->
+<!--      </h2>-->
+<!--      <span class="text-indigo-600">*coming soon*</span>-->
+<!--      <p class="max-w-2xl text-base text-default sm:text-lg text-neutral-400">-->
+<!--        Add all the movies you love and show it to your friends and family-->
+<!--      </p>-->
+<!--    </div>-->
+<!--  </section>-->
 </template>
 <style scoped>
 /* Utility Class */
