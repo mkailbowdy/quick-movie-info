@@ -18,7 +18,8 @@ const debouncedSearch = debounce(async () => {
 }, 300)
 </script>
 <template>
-    <form @submit.prevent="dismissKeyboard" class="mt-4">
+  <div class="pt-4 space-y-4">
+    <form @submit.prevent="dismissKeyboard" class="">
       <div class="flex gap-4 items-center justify-start">
         <RouterLink to="/"
         ><div
@@ -56,6 +57,8 @@ const debouncedSearch = debounce(async () => {
         </div>
       </Transition>
     </div>
+  </div>
+
 </template>
 <style scoped>
 .v-enter-from {
