@@ -10,7 +10,7 @@ const store = useMovieStore()
 const query = ref('')
 const { results } = storeToRefs(store)
 const { searchAll } = store
-const { loading, loadingStateOn, loadingStateOff } = useLoader()
+const { loadingStateOn, loadingStateOff } = useLoader()
 
 const debouncedSearch = debounce(async () => {
   loadingStateOn()

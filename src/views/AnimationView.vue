@@ -19,12 +19,17 @@ onMounted(() => {
 </script>
 <template>
   <div class="body">
+    <div class="ball aspect-square rounded-full h-32"></div>
+
     <div class="flex justify-center gap-4 py-4">
-      <button class="cool">button1</button>
-      <button class="cool">button2</button>
-      <button class="cool">button3</button>
-      <button class="cool">button4</button>
-      <button class="cool">button5</button>
+
+
+
+<!--      <button class="cool">button1</button>-->
+<!--      <button class="cool">button2</button>-->
+<!--      <button class="cool">button3</button>-->
+<!--      <button class="cool">button4</button>-->
+<!--      <button class="cool">button5</button>-->
     </div>
     <!--    <section class="hiddens">-->
     <!--      <h1>Hi mom</h1>-->
@@ -185,4 +190,18 @@ transition-delay: 0s;
 .cool:nth-child(5)::after {
   transform: rotate(180deg);
 }
+
+.ball {
+  border: 6px solid;
+  border-color: #6499E9 #9EDDFF #9EDDFF #9EDDFF;
+  animation: 30s linear 0s infinite both running rotate;
+}
+
+@keyframes rotate {
+  to{
+    transform: rotate(.5turn);
+  }
+}
+
+
 </style>

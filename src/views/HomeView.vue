@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SearchComponent from '@/components/SearchComponent.vue'
+import { onMounted } from 'vue'
 </script>
 <template>
   <SearchComponent />
@@ -14,10 +15,10 @@ import SearchComponent from '@/components/SearchComponent.vue'
     </div>
     <div class="bg-neutral-800">
       <div class="gallery flex gap-4 -rotate-6 skew-x-12 mt-12 -ml-8 w-5/12">
-        <img src="/nosferatu.jpg" />
-        <img src="/dune.jpg" />
-        <img src="/latenight.jpg" />
-        <img src="/starwars.jpg" />
+        <img src="/nosferatu.jpg" class="transition hover:-translate-y-1" loading="lazy"/>
+        <img src="/dune.jpg" class="transition hover:-translate-y-1" loading="lazy"/>
+        <img src="/latenight.jpg" class="transition hover:-translate-y-1" loading="lazy"/>
+        <img src="/starwars.jpg" class="transition hover:-translate-y-1" loading="lazy"/>
       </div>
     </div>
   </section>
@@ -38,6 +39,17 @@ import SearchComponent from '@/components/SearchComponent.vue'
           >
         </div>
       </div>
+    </div>
+  </section>
+  <section class="py-6">
+    <div class="space-y-4">
+      <h2 class="max-w-2xl text-3xl tracking-tight text-strong sm:text-4xl xl:text-5xl/[1.2]">
+        Share your Favorites
+      </h2>
+      <span class="text-indigo-600">*coming soon*</span>
+      <p class="max-w-2xl text-base text-default sm:text-lg text-neutral-400">
+        Add all the movies you love and show it to your friends and family
+      </p>
     </div>
   </section>
 </template>
@@ -130,6 +142,10 @@ import SearchComponent from '@/components/SearchComponent.vue'
 
 div.gallery img {
   box-shadow: -10px 10px 2px 0 black;
+  border: 3px solid black;
+}
+div.gallery img:hover {
+  box-shadow: -12px 12px 5px 0 black;
   border: 3px solid black;
 }
 
