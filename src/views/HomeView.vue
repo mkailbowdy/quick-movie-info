@@ -141,6 +141,8 @@ import { onMounted } from 'vue'
 }
 
 div.gallery img {
+  width: 100%;
+  height: 100%;
   box-shadow: -10px 10px 2px 0 black;
   border: 3px solid black;
 }
